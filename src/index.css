@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --paper: 247 241 230;
+    --card: 255 251 243;
+    --ink: 42 36 32;
+    --muted: 110 98 88;
+    --rule: 226 214 196;
+    --accent: 178 72 38;
+
+    --s-finance: 217 119 6;
+    --s-economics: 225 29 72;
+    --s-philosophy: 124 58 237;
+    --s-law: 37 99 235;
+    --s-sustainability: 22 163 74;
+    --s-tech: 8 145 178;
+
+    --tabbar-h: 64px;
+    --topnav-h: 64px;
+    color-scheme: light;
+  }
+  .dark {
+    --paper: 22 19 15;
+    --card: 33 28 23;
+    --ink: 237 230 218;
+    --muted: 172 160 146;
+    --rule: 60 52 44;
+    --accent: 240 140 100;
+
+    --s-finance: 251 191 36;
+    --s-economics: 251 113 133;
+    --s-philosophy: 167 139 250;
+    --s-law: 96 165 250;
+    --s-sustainability: 74 222 128;
+    --s-tech: 34 211 238;
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+  body {
+    overscroll-behavior: none;
+  }
+  /* Faint paper grain */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+    background-image: radial-gradient(rgb(var(--ink) / 0.05) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+  :focus-visible {
+    outline: 3px solid rgb(var(--accent));
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+}
+
+@layer components {
+  /* Long-form reading typography */
+  .prose-literary {
+    @apply font-serif text-[1.125rem] leading-[1.8] md:text-[1.2rem];
+  }
+  .prose-literary p {
+    @apply mb-6;
+  }
+  .prose-literary h2 {
+    @apply font-display mb-4 mt-10 text-2xl font-semibold;
+  }
+  .prose-literary blockquote {
+    @apply font-display my-8 border-l-4 pl-5 text-xl italic leading-snug;
+    border-color: var(--piece-color, rgb(var(--accent)));
+  }
+  .prose-literary ul {
+    @apply mb-6 list-disc space-y-2 pl-6;
+  }
+  .prose-literary li::marker {
+    color: var(--piece-color, rgb(var(--accent)));
+  }
+  .prose-literary a {
+    @apply underline decoration-2 underline-offset-2;
+    text-decoration-color: var(--piece-color, rgb(var(--accent)));
+  }
+  .prose-literary strong {
+    @apply font-semibold;
+  }
+  .drop-cap > p:first-child::first-letter {
+    @apply font-display float-left mr-2 mt-1 text-[3.6rem] font-bold leading-[0.85];
+    color: var(--piece-color, rgb(var(--accent)));
+  }
+
+  /* Feed excerpt: as much as fits, then a soft fade */
+  .fade-out {
+    -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  }
+
+  .label {
+    @apply font-sans text-[0.72rem] font-semibold uppercase tracking-[0.08em];
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+}

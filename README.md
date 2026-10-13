@@ -1,1 +1,84 @@
-# reading-app
+# [APP NAME]: reading app prototype
+
+A mobile-first, installable (PWA) reading app: short pieces that make finance, economics,
+philosophy, law, sustainability and tech easy to grasp. Built with React, Vite, TypeScript,
+Tailwind CSS and Framer Motion. There's no backend; all content lives in one file.
+
+**Live app:** https://whyashika.github.io/reading-app/ (redeploys automatically on every push to `main`).
+
+<p>
+  <img src="docs/phone-feed.png" width="220" alt="Feed on a phone">
+  <img src="docs/phone-check-in.png" width="220" alt="Check-in question">
+  <img src="docs/desktop-map.png" width="480" alt="Metro map on desktop">
+</p>
+
+## Run it
+
+```bash
+npm install
+npm run dev      # local dev server at http://localhost:5173
+npm run build    # production build into dist/
+npm run preview  # serve the production build locally
+```
+
+The `dist/` folder is a static site: drop it on Netlify, Vercel, GitHub Pages or any static host.
+Because it uses hash URLs (`/#/map`), it works from any sub-folder without server config.
+
+## Changing the app's name
+
+Edit `APP_NAME` in `src/config.ts`. It updates the nav bar, the browser tab title and the
+name shown when someone installs the app on their phone.
+
+## Adding or editing a piece
+
+Everything readers see lives in **`src/content/pieces.ts`**. Each piece is one `{ ... }` block in
+the `pieces` list. To add one, copy an existing block, paste it at the end of the list (before
+the closing `];`), and change the fields. Save, and the piece appears in the feed, under its
+subject filter and on the map automatically. You never need to touch the components.
+
+| Field | Required | What it does |
+| --- | --- | --- |
+| `id` | yes | A short, unique, URL-friendly name like `"carbon-credits"`. Used in links. |
+| `title` | yes | The headline. |
+| `subject` | yes | One or more of `"Finance"`, `"Economics"`, `"Philosophy"`, `"Law"`, `"Sustainability"`, `"Tech"`. Two or more makes it an **interchange** station on the map. |
+| `format` | yes | `"Story"`, `"Explainer"` or `"News breakdown"`. |
+| `blurb` | yes | One or two sentences, shown in the info sheet and map preview. |
+| `themes` | yes | A list of short tags shown to readers, e.g. `["Climate", "Markets"]`. |
+| `body` | yes | The piece itself, between backticks. Leave a blank line between paragraphs. You can use `**bold**`, `*italic*`, `[a link](https://...)`, `## A heading`, `> a pull quote` and `- bullet lists`. Avoid typing a backtick inside the body. |
+| `readingTime` | no | Minutes. Leave it out and it's worked out from the body's length. |
+| `difficulty` | yes | `1` No background needed, `2` Builds on basics, `3` Deeper dive. Easier pieces sit further left on their map line. |
+| `readThisFirst` | no | A list of other pieces' `id`s, e.g. `["inflation-chai"]`. Shown as a gentle nudge, and those pieces sit earlier on the map. |
+| `realWorldHook` | no | `{ text: "...", type: "Timely" }` or `type: "Evergreen"`. |
+| `series` | no | `{ name: "The Price of Everything", part: 2, totalParts: 2 }`. Parts link to each other automatically. |
+| `keyTerms` | yes | **Hidden** tags, never shown to readers. Pieces sharing key terms are suggested as "related". Use `[]` if none. |
+| `checkIn` | yes | One question with options. Each option has `text`, `isCorrect` (`true` for the right one) and an `explanation` shown when picked, right or wrong. |
+| `publishedDate` | yes | `"YYYY-MM-DD"`. The feed shows newest first. |
+| `placeholder` | no | `true` shows a small "Placeholder" tag. Delete this line on real pieces. |
+
+While `npm run dev` is running, the browser console warns you about typos such as a
+`readThisFirst` id that doesn't exist or a check-in with no correct answer.
+
+To **remove** a piece, delete its block (and remove its `id` from any other piece's `readThisFirst`).
+
+## Where things live
+
+```
+src/config.ts            app name and other settings
+src/content/pieces.ts    ALL the content
+src/content/types.ts     the shape of a piece (field definitions)
+src/lib/metroLayout.ts   builds the metro map layout from the content
+src/lib/content.ts       reading time, related pieces, series helpers
+src/pages/               Feed, Reader and Map screens
+src/components/          cards, sheets, check-in, map, navigation
+src/index.css            colours (light/dark), subject line colours, reading typography
+public/                  PWA icons and offline service worker
+```
+
+Subject colours are the `--s-finance`, `--s-economics` ... variables in `src/index.css`
+(one set for light mode, a brighter set for dark mode).
+
+## One-file web preview
+
+`npm run build:single` writes `dist-single/reading-app.html`: the whole app in a single page
+you can open or share without a server. It uses in-memory navigation (no URL changes), so the
+browser's back button doesn't move between screens there; the in-app back buttons do.
