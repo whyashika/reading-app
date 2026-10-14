@@ -75,8 +75,8 @@ export async function drawLineCard(subject: Subject, stationTitles: string[], ur
   g.textBaseline = "alphabetic";
   g.fillStyle = INK;
   g.font = `italic 500 54px ${DISPLAY}`;
-  g.fillText(`Rode the ${subject} line,`, W / 2, 1110);
-  g.fillText("end to end.", W / 2, 1176);
+  g.fillText("Completed the", W / 2, 1110);
+  g.fillText(`${subject} line.`, W / 2, 1176);
   g.fillStyle = MUTED;
   g.font = `400 30px ${SERIF}`;
   const n = stationTitles.length;

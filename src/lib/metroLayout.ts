@@ -7,7 +7,7 @@ import { SUBJECTS } from "../content/types";
  * 1. Every piece gets a place in one global reading order: prerequisites first,
  *    then easier before harder, then older before newer.
  * 2. Each subject is a line; its stations are its pieces in that global order,
- *    so riding a line left-to-right is a learning path.
+ *    so following a line left-to-right is a learning path.
  * 3. Each line gets a home row. Rows are ordered so lines that share
  *    interchange stations sit next to each other.
  * 4. Stations get columns ("layers") with a longest-path pass, so an

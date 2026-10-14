@@ -39,7 +39,7 @@ export default function Passport() {
             {stamped === 0 ? "Your first stamp is one piece away" : `${stamped} of ${allPieces.length} stations stamped`}
           </h1>
           <p className="mt-3 max-w-[60ch] font-serif text-lg leading-relaxed text-ink/75">
-            Finish a piece, or answer its check-in, and it gets stamped here. Ride a whole line, station by station, and that subject's
+            Finish a piece, or answer its check-in, and it gets stamped here. Complete a whole line, station by station, and that subject's
             basics are yours to keep.
           </p>
           <div className="mt-5 h-2.5 overflow-hidden rounded-full bg-ink/[0.08]" role="progressbar" aria-valuemin={0} aria-valuemax={allPieces.length} aria-valuenow={stamped} aria-label="Pieces stamped">
@@ -239,7 +239,7 @@ function LineComplete({ subject, stations }: { subject: Subject; stations: Piece
         <PartyPopper size={20} style={{ color: subjectColor(subject) }} /> Line complete!
       </div>
       <p className="mt-1 font-serif leading-relaxed">
-        You rode the {subject} line end to end. Every station is stamped in your passport.
+        You've completed the {subject} line. Every station is stamped in your passport.
       </p>
       {image && (
         <img
