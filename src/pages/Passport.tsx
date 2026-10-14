@@ -4,11 +4,13 @@ import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { StatusBadge } from "../components/Badges";
 import { PieceLinkCard } from "../components/PieceLinkCard";
+import { StreakCard } from "../components/StreakCard";
 import { APP_NAME } from "../config";
 import type { Piece, Subject } from "../content/types";
 import { allPieces, getPiece } from "../lib/content";
 import { buildMetroLayout } from "../lib/metroLayout";
 import { pieceStatus, resetPassport, usePassport } from "../lib/progress";
+import { appUrl, saveImage, shareImage } from "../lib/share";
 import { drawLineCard } from "../lib/shareCard";
 import { subjectColor, subjectInk } from "../lib/subjects";
 
@@ -50,8 +52,10 @@ export default function Passport() {
           </div>
         </header>
 
+        <StreakCard />
+
         {fresh.length > 0 && (
-          <section className="mt-4">
+          <section className="mt-8">
             <h2 className="label mb-3 flex items-center gap-2 text-muted">
               New for you <span className="rounded-full bg-accent px-1.5 text-card">{fresh.length}</span>
             </h2>
@@ -192,7 +196,7 @@ function lastStampedIndex(stations: Piece[], finished: Record<string, string>) {
 function LineComplete({ subject, stations }: { subject: Subject; stations: Piece[] }) {
   const [note, setNote] = useState<string | null>(null);
   const [image, setImage] = useState<{ blob: Blob; url: string } | null>(null);
-  const pageUrl = window.location.href.split("#")[0];
+  const pageUrl = appUrl();
   const text = shareLine(subject);
   const fileName = `${APP_NAME.toLowerCase()}-${subject.toLowerCase()}-line.png`;
 
@@ -214,29 +218,13 @@ function LineComplete({ subject, stations }: { subject: Subject; stations: Piece
 
   const save = () => {
     if (!image) return;
-    const a = document.createElement("a");
-    a.href = image.url;
-    a.download = fileName;
-    a.click();
+    saveImage(image.url, fileName);
     setNote("Saved. Post it wherever you like.");
   };
 
   const share = async () => {
-    try {
-      const file = image && new File([image.blob], fileName, { type: "image/png" });
-      if (file && navigator.canShare?.({ files: [file] })) {
-        await navigator.share({ files: [file], title: `${subject} line complete`, text: `${text} ${pageUrl}` });
-        return;
-      }
-      if (navigator.share) {
-        await navigator.share({ title: `${subject} line complete`, text, url: pageUrl });
-        return;
-      }
-      await navigator.clipboard.writeText(`${text} ${pageUrl}`);
-      setNote("Caption copied. Save the image too, then paste both anywhere.");
-    } catch {
-      setNote(null);
-    }
+    const result = await shareImage({ blob: image?.blob ?? null, fileName, title: `${subject} line complete`, text, url: pageUrl });
+    setNote(result === "copied" ? "Caption copied. Save the image too, then paste both anywhere." : null);
   };
 
   return (

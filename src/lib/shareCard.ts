@@ -222,3 +222,98 @@ function roundRect(g: CanvasRenderingContext2D, x: number, y: number, w: number,
   g.arcTo(x, y, x + w, y, r);
   g.closePath();
 }
+
+/**
+ * A pull-quote card: the line a reader highlighted, in large italic type,
+ * with the piece's title underneath. Same size and dark look as the line card.
+ */
+export async function drawQuoteCard(subjects: Subject[], quote: string, title: string, url: string): Promise<Blob> {
+  await Promise.all(
+    [`italic 500 64px Fraunces`, `600 40px Fraunces`, `600 30px Inter`, `700 24px Inter`].map((f) => document.fonts?.load(f).catch(() => undefined)),
+  );
+  const subject = subjects[0];
+  const c = document.createElement("canvas");
+  c.width = W;
+  c.height = H;
+  const g = c.getContext("2d")!;
+  const color = rgb(subject);
+
+  g.fillStyle = BG;
+  g.fillRect(0, 0, W, H);
+  const glow = g.createRadialGradient(W * 0.1, H * 0.95, 0, W * 0.1, H * 0.95, 820);
+  glow.addColorStop(0, rgb(subject, 0.24));
+  glow.addColorStop(1, rgb(subject, 0));
+  g.fillStyle = glow;
+  g.fillRect(0, 0, W, H);
+
+  // A band of the piece's subject colours along the top edge
+  subjects.forEach((s, i) => {
+    g.fillStyle = rgb(s);
+    g.fillRect((W / subjects.length) * i, 0, W / subjects.length + 1, 14);
+  });
+
+  drawLogo(g, 80, 80, 76);
+  g.fillStyle = INK;
+  g.font = `600 52px ${DISPLAY}`;
+  g.textBaseline = "middle";
+  g.textAlign = "left";
+  g.fillText(APP_NAME, 176, 120);
+
+  // Big opening quote mark
+  g.fillStyle = color;
+  g.font = `600 260px ${DISPLAY}`;
+  g.textBaseline = "alphabetic";
+  g.fillText("“", 64, 420);
+
+  // The quote, as large as fits the box
+  const clean = quote.replace(/\s+/g, " ").trim().replace(/^["“'‘]+|["”'’]+$/g, "");
+  const box = { x: 100, top: 400, w: W - 200, h: 560 };
+  let size = 76;
+  let lines: string[] = [];
+  for (; size >= 36; size -= 2) {
+    g.font = `italic 500 ${size}px ${DISPLAY}`;
+    lines = wrap(g, clean, box.w);
+    if (lines.length * size * 1.32 <= box.h) break;
+  }
+  const lh = size * 1.32;
+  const blockH = lines.length * lh;
+  let y = box.top + (box.h - blockH) / 2 + size;
+  g.fillStyle = INK;
+  for (const line of lines) {
+    g.fillText(line, box.x, y);
+    y += lh;
+  }
+
+  // Where it's from
+  const footTop = 1040;
+  g.fillStyle = color;
+  g.fillRect(box.x, footTop, 80, 8);
+  g.fillStyle = MUTED;
+  g.font = `700 24px ${SANS}`;
+  g.fillText(`FROM ${APP_NAME.toUpperCase()} · ${subjects.join(" × ").toUpperCase()}`, box.x, footTop + 64);
+  g.fillStyle = INK;
+  g.font = `600 40px ${DISPLAY}`;
+  const titleLines = wrap(g, title, box.w).slice(0, 2);
+  titleLines.forEach((l, i) => g.fillText(l, box.x, footTop + 120 + i * 50));
+
+  g.font = `600 26px ${SANS}`;
+  g.fillStyle = rgb(subject, 0.9);
+  g.textAlign = "center";
+  g.fillText(url.replace(/^https?:\/\//, "").replace(/\/$/, ""), W / 2, H - 56);
+
+  return new Promise((resolve, reject) => c.toBlob((b) => (b ? resolve(b) : reject(new Error("toBlob failed"))), "image/png"));
+}
+
+function wrap(g: CanvasRenderingContext2D, text: string, width: number): string[] {
+  const lines: string[] = [];
+  let line = "";
+  for (const word of text.split(" ")) {
+    const next = line ? `${line} ${word}` : word;
+    if (g.measureText(next).width > width && line) {
+      lines.push(line);
+      line = word;
+    } else line = next;
+  }
+  if (line) lines.push(line);
+  return lines;
+}

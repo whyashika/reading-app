@@ -1,13 +1,17 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, Footprints, Layers, Map as MapIcon, Stamp } from "lucide-react";
+import { ArrowLeft, Flame, Footprints, Headphones, Highlighter, Layers, Map as MapIcon, Stamp } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { DifficultyMeter, FormatTag, HookBadge, PlaceholderTag, ReadingTime, SubjectBadge } from "../components/Badges";
 import { CheckIn } from "../components/CheckIn";
+import { ListenPlayer } from "../components/ListenPlayer";
+import { QuoteMaker } from "../components/QuoteMaker";
+import { WhyToday } from "../components/WhyToday";
 import { PieceLinkCard } from "../components/PieceLinkCard";
 import { getPiece, nextInSeries, prerequisites, readingTime, relatedPieces } from "../lib/content";
 import { Markdown } from "../lib/markdown";
-import { markFinished, markOpened } from "../lib/progress";
+import { markFinished, markOpened, useStreak } from "../lib/progress";
+import { speechSupported, useSpeech } from "../lib/useSpeech";
 import { subjectColor, subjectGradient, subjectInk } from "../lib/subjects";
 
 export default function Reader() {
@@ -17,19 +21,41 @@ export default function Reader() {
   const location = useLocation();
 
   const endRef = useRef<HTMLDivElement>(null);
-  const [justStamped, setJustStamped] = useState(false);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const streak = useStreak();
+  // What the toast celebrates: a first stamp, a streak day, or both.
+  const [toast, setToast] = useState<{ stamped: boolean; streakDay: boolean } | null>(null);
+  const toastTimer = useRef<number>();
   const stamp = () => {
-    if (piece && markFinished(piece.id)) {
-      setJustStamped(true);
-      setTimeout(() => setJustStamped(false), 3200);
+    if (!piece) return;
+    const result = markFinished(piece.id);
+    if (result.stamped || result.streakDay) {
+      setToast(result);
+      window.clearTimeout(toastTimer.current);
+      toastTimer.current = window.setTimeout(() => setToast(null), 3600);
     }
   };
 
+  const [listening, setListening] = useState(false);
+  const speech = useSpeech(piece?.title ?? "", piece?.body ?? "", stamp);
+
   useEffect(() => {
     window.scrollTo(0, 0);
-    setJustStamped(false);
+    setToast(null);
+    setListening(false);
     if (id && getPiece(id)) markOpened(id);
   }, [id]);
+
+  // Keep the paragraph being read aloud in view.
+  useEffect(() => {
+    if (speech.block === undefined || speech.block < 0) return;
+    const el = bodyRef.current?.querySelector(`[data-block="${speech.block}"]`);
+    const r = el?.getBoundingClientRect();
+    if (el && r && (r.top < 90 || r.bottom > window.innerHeight - 140)) {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      el.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
+    }
+  }, [speech.block]);
 
   // Reaching the end of the piece stamps it in the reader's passport.
   useEffect(() => {
@@ -76,11 +102,31 @@ export default function Reader() {
           <button onClick={back} className="-ml-1 flex h-11 items-center gap-1.5 rounded-full px-3 text-sm font-semibold transition hover:bg-ink/5">
             <ArrowLeft size={18} /> Feed
           </button>
+          {speechSupported && (
+            <button
+              onClick={() => {
+                if (listening) {
+                  speech.stop();
+                  setListening(false);
+                } else {
+                  setListening(true);
+                  speech.play();
+                }
+              }}
+              aria-pressed={listening}
+              className={`ml-auto flex h-11 items-center gap-1.5 rounded-full px-3 text-sm font-semibold transition ${
+                listening ? "bg-ink text-card" : "text-muted hover:bg-ink/5 hover:text-ink"
+              }`}
+            >
+              <Headphones size={18} /> Listen
+            </button>
+          )}
           <Link
             to={`/map?focus=${piece.id}`}
-            className="ml-auto flex h-11 items-center gap-1.5 rounded-full px-3 text-sm font-semibold text-muted transition hover:bg-ink/5 hover:text-ink"
+            className={`${speechSupported ? "" : "ml-auto "}flex h-11 items-center gap-1.5 rounded-full px-3 text-sm font-semibold text-muted transition hover:bg-ink/5 hover:text-ink`}
           >
-            <MapIcon size={18} /> On the map
+            <MapIcon size={18} /> <span className="sm:hidden">Map</span>
+            <span className="hidden sm:inline">On the map</span>
           </Link>
         </div>
         <div className="h-1" style={{ background: subjectGradient(piece.subject) }} />
@@ -116,6 +162,8 @@ export default function Reader() {
           )}
         </header>
 
+        {piece.whyToday && <WhyToday why={piece.whyToday} />}
+
         {prereqs.length > 0 && (
           <motion.aside
             initial={{ opacity: 0, scale: 0.97 }}
@@ -143,7 +191,14 @@ export default function Reader() {
           </motion.aside>
         )}
 
-        <Markdown body={piece.body} className="prose-literary drop-cap" />
+        <div ref={bodyRef}>
+          <Markdown body={piece.body} className="prose-literary drop-cap" glossary activeBlock={listening ? speech.block : undefined} />
+        </div>
+        <QuoteMaker piece={piece} container={bodyRef} />
+
+        <p className="mt-2 flex items-center gap-2 font-sans text-sm text-muted">
+          <Highlighter size={15} className="shrink-0" /> Liked a line? Highlight it to make a quote card.
+        </p>
 
         <div ref={endRef} className="my-12 text-center font-display text-2xl tracking-[0.5em] text-muted" aria-hidden>
           ⁂
@@ -182,11 +237,23 @@ export default function Reader() {
         </div>
       </article>
 
+      <ListenPlayer
+        speech={speech}
+        open={listening}
+        color={subjectColor(main)}
+        onClose={() => {
+          speech.stop();
+          setListening(false);
+        }}
+      />
+
       <AnimatePresence>
-        {justStamped && (
+        {toast && (
           <motion.div
             role="status"
-            className="fixed inset-x-0 bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+12px)] z-40 flex justify-center px-4 md:bottom-8"
+            className={`fixed inset-x-0 z-40 flex justify-center px-4 ${
+              listening ? "bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+84px)] md:bottom-28" : "bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+12px)] md:bottom-8"
+            }`}
             initial={{ opacity: 0, y: 24, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 16 }}
@@ -198,14 +265,19 @@ export default function Reader() {
             >
               <motion.span
                 className="grid h-9 w-9 place-items-center rounded-full"
-                style={{ background: subjectColor(main), color: subjectInk(main) }}
+                style={toast.stamped ? { background: subjectColor(main), color: subjectInk(main) } : { background: "rgb(var(--accent))", color: "rgb(var(--card))" }}
                 initial={{ rotate: -40, scale: 1.6 }}
                 animate={{ rotate: -8, scale: 1 }}
                 transition={{ type: "spring", damping: 10, stiffness: 260 }}
               >
-                <Stamp size={18} strokeWidth={2.4} />
+                {toast.stamped ? <Stamp size={18} strokeWidth={2.4} /> : <Flame size={18} strokeWidth={2.4} fill="currentColor" />}
               </motion.span>
-              Stamped in your passport
+              {toast.stamped ? "Stamped in your passport" : `${streak.current}-day reading streak`}
+              {toast.stamped && toast.streakDay && streak.current > 1 && (
+                <span className="flex items-center gap-1 text-card/75">
+                  · <Flame size={14} fill="currentColor" /> {streak.current} days
+                </span>
+              )}
             </Link>
           </motion.div>
         )}

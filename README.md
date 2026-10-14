@@ -49,6 +49,7 @@ subject filter and on the map automatically. You never need to touch the compone
 | `difficulty` | yes | `1` No background needed, `2` Builds on basics, `3` Deeper dive. Easier pieces sit further left on their map line. |
 | `readThisFirst` | no | A list of other pieces' `id`s, e.g. `["inflation-chai"]`. Shown as a gentle nudge, and those pieces sit earlier on the map. |
 | `realWorldHook` | no | `{ text: "...", type: "Timely" }` or `type: "Evergreen"`. |
+| `whyToday` | no | A highlighted "Why this matters today" box near the top: `{ text: "...", link: { label: "...", url: "https://..." } }` (the link is optional). Only add it to pieces tied to the news. |
 | `series` | no | `{ name: "The Price of Everything", part: 2, totalParts: 2 }`. Parts link to each other automatically. |
 | `keyTerms` | yes | **Hidden** tags, never shown to readers. Pieces sharing key terms are suggested as "related". Use `[]` if none. |
 | `checkIn` | yes | One question with options. Each option has `text`, `isCorrect` (`true` for the right one) and an `explanation` shown when picked, right or wrong. |
@@ -59,6 +60,16 @@ While `npm run dev` is running, the browser console warns you about typos such a
 `readThisFirst` id that doesn't exist or a check-in with no correct answer.
 
 To **remove** a piece, delete its block (and remove its `id` from any other piece's `readThisFirst`).
+
+## Glossary pop-ups
+
+Definitions live in `src/content/glossary.ts`. The first time a term (or one of its `aliases`) appears in a piece's ordinary text, it gets a dotted underline that readers can tap. Words in **bold** are skipped, since that's where a piece explains a term itself. The starter definitions are drafts: rewrite them in your own voice.
+
+## Listen, quote cards and the streak
+
+- **Listen:** the Listen button in the reader reads the piece aloud with the device's built-in voice, highlighting each paragraph as it goes. Listening to the end stamps the piece.
+- **Quote cards:** readers can highlight any line (up to 280 characters) and tap "Make a quote card" to share or save it as an image.
+- **Reading streak:** finishing at least one piece a day (re-reads count) grows the streak on the Passport page. Miss a whole day and it starts again.
 
 ## Concept passport
 

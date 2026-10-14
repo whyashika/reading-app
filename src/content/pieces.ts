@@ -128,6 +128,10 @@ So the extra five rupees isn't a scam. It's a tiny window into the whole economy
       text: "Placeholder hook: written around a recent central bank rate decision. Swap in the real headline.",
       type: "Timely",
     },
+    whyToday: {
+      text: "The RBI's Monetary Policy Committee meets roughly every two months to decide the repo rate, India's key interest rate. Whenever its next decision makes the headlines, this is the chain reaction it's hoping to set off.",
+      link: { label: "The RBI's latest announcements", url: "https://www.rbi.org.in" },
+    },
     keyTerms: ["interest rate", "inflation", "central bank", "monetary policy", "loans"],
     publishedDate: "2026-09-18",
     body: `In Part 1 we watched the price of chai rise. Now the headline: *"Central bank raises interest rates."* What does a bank in a faraway building have to do with my tea?

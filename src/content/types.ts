@@ -31,6 +31,11 @@ export interface Piece {
   /** ids of pieces a reader should ideally read before this one. */
   readThisFirst?: string[];
   realWorldHook?: { text: string; type: "Timely" | "Evergreen" };
+  /**
+   * Optional. A highlighted "Why this matters today" box near the start of the piece,
+   * for pieces tied to something in the news. Leave it out on everything else.
+   */
+  whyToday?: { text: string; link?: { label: string; url: string } };
   series?: { name: string; part: number; totalParts: number };
   /** HIDDEN: never shown to readers. Used only to find related pieces. */
   keyTerms: string[];
