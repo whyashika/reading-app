@@ -53,7 +53,7 @@ subject filter and on the map automatically. You never need to touch the compone
 | `keyTerms` | yes | **Hidden** tags, never shown to readers. Pieces sharing key terms are suggested as "related". Use `[]` if none. |
 | `checkIn` | yes | One question with options. Each option has `text`, `isCorrect` (`true` for the right one) and an `explanation` shown when picked, right or wrong. |
 | `publishedDate` | yes | `"YYYY-MM-DD"`. The feed shows newest first. |
-| `placeholder` | no | `true` shows a small "Placeholder" tag. Delete this line on real pieces. |
+| `placeholder` | no | `true` shows a small "Placeholder" tag, for a piece you want to mark as unfinished. Leave it out on finished pieces. |
 
 While `npm run dev` is running, the browser console warns you about typos such as a
 `readThisFirst` id that doesn't exist or a check-in with no correct answer.

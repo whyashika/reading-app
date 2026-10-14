@@ -2,8 +2,8 @@
  * ─────────────────────────────────────────────────────────────
  *  ALL READING CONTENT LIVES IN THIS FILE.
  * ─────────────────────────────────────────────────────────────
- *  Every piece below is a PLACEHOLDER (see `placeholder: true`).
- *  Replace them with real pieces; the feed, subject filters and
+ *  The pieces below are starter drafts. Edit or replace them;
+ *  the feed, subject filters and
  *  the metro map all update automatically. See README.md →
  *  "Adding or editing a piece" for a field-by-field guide.
  * ─────────────────────────────────────────────────────────────
@@ -27,7 +27,6 @@ export const pieces: Piece[] = [
     },
     keyTerms: ["compound interest", "interest rate", "saving", "time value of money"],
     publishedDate: "2026-07-02",
-    placeholder: true,
     body: `I used to think interest was a reward you got once, like a thank-you note from the bank. It isn't. It's more like a snowball rolling downhill: the bigger it gets, the more snow it picks up on each turn.
 
 Here's the whole trick. Say you put **₹10,000** in an account that pays 8% a year. After year one you have ₹10,800. In year two, the bank pays 8% not on your original ₹10,000 but on ₹10,800. That extra ₹64 looks tiny. But it is interest *earning its own interest*, and that is what "compound" means.
@@ -79,7 +78,6 @@ The same snowball rolls the other way on debt. A credit-card balance you ignore 
     },
     keyTerms: ["inflation", "prices", "purchasing power", "money supply"],
     publishedDate: "2026-07-09",
-    placeholder: true,
     body: `There's a chai stall near my old college that charged ₹10 a cup when I started. By the time I left it was ₹15. The tea hadn't changed. The cup hadn't changed. What changed was the value of the money I was paying with.
 
 That slow drift is **inflation**: the general rise in prices across an economy, which is the same thing as each rupee buying a little less. Economists call what a rupee can buy its *purchasing power*, and inflation is purchasing power leaking away.
@@ -132,7 +130,6 @@ So the extra five rupees isn't a scam. It's a tiny window into the whole economy
     },
     keyTerms: ["interest rate", "inflation", "central bank", "monetary policy", "loans"],
     publishedDate: "2026-09-18",
-    placeholder: true,
     body: `In Part 1 we watched the price of chai rise. Now the headline: *"Central bank raises interest rates."* What does a bank in a faraway building have to do with my tea?
 
 Think of interest as the **price of borrowing money**. When the central bank raises its key rate, ordinary banks have to pay more to borrow, so they charge you more too. Home loans, car loans and business loans all get pricier.
@@ -186,7 +183,6 @@ So when you see that headline, read it as: *"We think prices are rising too fast
     },
     keyTerms: ["carbon credits", "emissions", "markets", "externalities", "climate"],
     publishedDate: "2026-08-21",
-    placeholder: true,
     body: `When I booked a flight last year, the website offered to make my trip "carbon neutral" for a few hundred rupees. I clicked yes, felt virtuous for about four seconds, and then wondered: *what did I just buy?*
 
 The answer is a **carbon credit**. One credit usually represents one tonne of carbon dioxide that was kept out of the air (say, by protecting a forest) or pulled out of it. The idea is that pollution has a cost nobody was paying. Credits put a price tag on it.
@@ -238,7 +234,6 @@ So the honest answer is: you can buy *part* of your way out, if the credit is re
     },
     keyTerms: ["insider trading", "securities law", "markets", "fairness", "shares"],
     publishedDate: "2026-08-07",
-    placeholder: true,
     body: `Meera's brother-in-law talks too much after his second glass of wine. Between the dal and dessert he lets it slip: his company is about to buy a smaller firm called Lumen, and Lumen's shares will "go through the roof" when it's announced on Monday.
 
 On the drive home Meera opens her trading app. Lumen is cheap. Monday is three days away. Nobody would ever know.
@@ -290,7 +285,6 @@ Meera closes the app. Monday comes, Lumen's price jumps, and she feels a small p
     },
     keyTerms: ["value", "scarcity", "prices", "utility", "desire"],
     publishedDate: "2026-07-30",
-    placeholder: true,
     body: `Adam Smith, the grandfather of economics, was stuck on a riddle. Nothing is more useful than water, yet it costs next to nothing. Diamonds are nearly useless, yet they cost a fortune. How can that be?
 
 Philosophers had long split value into two kinds. There's *use value*: what a thing does for you. And there's *exchange value*: what someone will give you for it. Water wins the first contest easily. Diamonds win the second. So what decides the second?
@@ -341,7 +335,6 @@ That last line is where philosophy and economics shake hands. A first edition of
     },
     keyTerms: ["identity", "change", "thought experiment", "value"],
     publishedDate: "2026-06-25",
-    placeholder: true,
     body: `My grandmother had a silk sari she wore to every wedding. Over forty years, the tailor down the lane mended it: a new border here, a patch of fresh silk there, re-dyed once after a monsoon leak. By the end, he told her, there was probably not one original thread left.
 
 "Same sari," she said firmly.
@@ -392,7 +385,6 @@ I like her answer best. It also quietly explains why we pay more for things with
     },
     keyTerms: ["contract", "consent", "agreement", "terms of service"],
     publishedDate: "2026-06-18",
-    placeholder: true,
     body: `This morning I agreed to a new privacy policy, bought a metro ticket and ordered coffee. Legally speaking, I entered three contracts before 9 a.m. I didn't sign anything, and I certainly didn't read the policy.
 
 A **contract** is simply a promise the law will enforce. Not every promise counts: if I promise to help you move house and don't turn up, you can be annoyed, but you can't sue. So what tips a promise into a contract? Most legal systems look for a few ingredients:
@@ -447,7 +439,6 @@ That's why the long, unread terms of service matter. They're the fine print of a
     },
     keyTerms: ["precedent", "courts", "interpretation", "common law", "contract"],
     publishedDate: "2026-09-04",
-    placeholder: true,
     body: `Judge Rao had a problem. A delivery app had cancelled a rider's account without warning, and the rider claimed it broke their agreement. But the app's contract never said what happened in this exact situation, and no statute did either. The law, it seemed, had a blank page.
 
 So she did what judges in *common law* systems have done for centuries: she went to the library of past decisions. Somewhere in there, she suspected, another judge had faced a question shaped like hers.
@@ -500,7 +491,6 @@ Her judgment, in turn, became a page in that library. Some future judge, facing 
     },
     keyTerms: ["tragedy of the commons", "shared resources", "climate", "externalities", "cooperation"],
     publishedDate: "2026-06-11",
-    placeholder: true,
     body: `There was once a village with a pond, and the pond had fish, and ten families fished it. Each family took ten fish a week, and the pond refilled itself just fast enough. Everyone ate. Nobody worried.
 
 Then one family thought: *if I take twelve, the pond won't notice two extra fish.* They were right. The pond didn't notice. So the next family took twelve too, and the next. Each decision was small and sensible on its own. Within a few years, the pond was nearly empty, and every family was worse off than if they'd all stuck to ten.
@@ -551,7 +541,6 @@ The hopeful part? Real villages have solved this, with rules, trust, and sometim
     },
     keyTerms: ["algorithm", "recommendation", "attention", "data", "machine learning"],
     publishedDate: "2026-07-16",
-    placeholder: true,
     body: `When I first joined social media, posts showed up in the order people made them. Now my feed opens on a cooking video from someone I've never heard of. Nobody chose that for me. Something *predicted* it.
 
 That something is a **recommendation algorithm**: a set of instructions that scores every possible post and shows you the highest scorers first. The score is a guess at one question: *how likely is this person to engage with this?* Watch it, like it, comment, share, or simply not scroll past.
@@ -603,7 +592,6 @@ Knowing this doesn't make you immune. But it does turn the feed from a mirror in
     },
     keyTerms: ["artificial intelligence", "language models", "machine learning", "trust", "precedent"],
     publishedDate: "2026-09-25",
-    placeholder: true,
     body: `Every so often a story goes round: a lawyer submits a brief full of court cases, and the judge discovers some of them don't exist. The lawyer had asked an AI chatbot for precedents, and the chatbot had *invented* them, complete with names, dates and convincing quotes.
 
 To see why, it helps to know what these chatbots are. A **large language model** is trained on enormous amounts of text to do one thing very well: predict which words are likely to come next. Ask it a question and it writes the answer a fluent, well-read person would *probably* write. As a literature student, I think of it as a brilliant mimic of style.
@@ -652,7 +640,6 @@ Newer systems try to reduce this by checking sources, searching the web or sayin
     },
     keyTerms: ["indus valley", "ancient india", "cities", "planning", "history"],
     publishedDate: "2026-10-14",
-    placeholder: true,
     body: `In school, the Indus Valley Civilisation was a page I memorised and forgot: *Harappa, Mohenjo-daro, great bath, seals*. It was only years later, stuck in a flooded street during the monsoon, that I went back and realised how astonishing those cities were.
 
 Around 2600 BCE, in what is now Pakistan and north-western India, people built cities laid out on **grids**. Main streets ran in straight lines. Houses were made of baked bricks in roughly the same proportions everywhere, as if someone had agreed on a standard. And many homes were connected to **covered drains** running along the streets, with openings where they could be cleaned. Plenty of cities today can't say that.
@@ -700,7 +687,6 @@ We still can't read their script, so their own words stay silent. Their cities s
     },
     keyTerms: ["ramayana", "storytelling", "indian culture", "tradition", "myth"],
     publishedDate: "2026-10-14",
-    placeholder: true,
     body: `My Nani told me the Ramayana in instalments, one chapter a night, with the lights off. Years later, a college friend from Chennai told me a scene I'd never heard, and I said, a little too confidently, "That's not in the Ramayana." She laughed. "Which one?"
 
 That question changed how I think about stories. The version most people call the original is **Valmiki's**, in Sanskrit. But the epic has been retold again and again. The Tamil poet **Kamban** wrote his own, centuries later. **Tulsidas** retold it in Awadhi in the 16th century as the *Ramcharitmanas*, the version many families in the north sing from today. It travelled across Southeast Asia too, becoming the *Ramakien* in Thailand. The characters stay; their emphasis, scenes and even endings shift.
