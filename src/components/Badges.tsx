@@ -1,5 +1,6 @@
-import { Clock, Lightbulb, Newspaper, Feather, type LucideProps } from "lucide-react";
+import { Clock, Feather, Lightbulb, Newspaper, Stamp, type LucideProps } from "lucide-react";
 import type { Difficulty, Format, Subject } from "../content/types";
+import type { PieceStatus } from "../lib/progress";
 import { DIFFICULTY_LABEL } from "../lib/content";
 import { subjectColor } from "../lib/subjects";
 
@@ -73,4 +74,27 @@ export function HookBadge({ type }: { type: "Timely" | "Evergreen" }) {
       {type === "Timely" ? "● Timely" : "Evergreen"}
     </span>
   );
+}
+
+/** Read-state tag from the reader's passport. Shows nothing for plain unread pieces. */
+export function StatusBadge({ status }: { status: PieceStatus }) {
+  if (status === "new")
+    return (
+      <span className="rounded-full bg-accent px-2 py-0.5 font-sans text-[0.65rem] font-bold uppercase tracking-wider text-card">
+        New
+      </span>
+    );
+  if (status === "finished")
+    return (
+      <span className="inline-flex items-center gap-1 rounded-full border-[1.5px] border-[rgb(var(--s-sustainability))] px-2 py-0.5 font-sans text-[0.65rem] font-bold uppercase tracking-wider text-ink">
+        <Stamp size={11} strokeWidth={2.6} aria-hidden /> Stamped
+      </span>
+    );
+  if (status === "started")
+    return (
+      <span className="rounded-full bg-ink/[0.08] px-2 py-0.5 font-sans text-[0.65rem] font-bold uppercase tracking-wider text-muted">
+        Started
+      </span>
+    );
+  return null;
 }

@@ -60,6 +60,16 @@ While `npm run dev` is running, the browser console warns you about typos such a
 
 To **remove** a piece, delete its block (and remove its `id` from any other piece's `readThisFirst`).
 
+## Concept passport
+
+Readers get a stamp for each piece they finish (they reach the end, or answer the check-in).
+The **Passport** tab shows progress on every map line, the next stop on each, and which pieces
+are new. Stamped pieces show a tick on the map and a "Stamped" tag in the feed.
+
+A piece counts as **New** until it's opened if it was published in the last 30 days or since the
+reader's previous visit (change `NEW_PIECE_DAYS` in `src/config.ts`). Progress is saved in the
+reader's own browser (no accounts), so it doesn't follow them to another device.
+
 ## Where things live
 
 ```
@@ -68,6 +78,7 @@ src/content/pieces.ts    ALL the content
 src/content/types.ts     the shape of a piece (field definitions)
 src/lib/metroLayout.ts   builds the metro map layout from the content
 src/lib/content.ts       reading time, related pieces, series helpers
+src/lib/progress.ts      the reader's passport (read / new / stamped), saved in their browser
 src/pages/               Feed, Reader and Map screens
 src/components/          cards, sheets, check-in, map, navigation
 src/index.css            colours (light/dark), subject line colours, reading typography

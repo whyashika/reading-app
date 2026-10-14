@@ -12,3 +12,6 @@ export const APP_SHORT_NAME = APP_NAME.length <= 12 ? APP_NAME : APP_NAME.slice(
 
 /** Average adult reading speed, used to estimate reading time when a piece doesn't set one. */
 export const WORDS_PER_MINUTE = 220;
+
+/** An unopened piece counts as "New" if it was published within this many days (or since the reader's last visit). */
+export const NEW_PIECE_DAYS = 30;

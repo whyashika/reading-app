@@ -1,12 +1,13 @@
-import { motion } from "framer-motion";
-import { ArrowLeft, Footprints, Layers, Map as MapIcon } from "lucide-react";
-import { useEffect, type CSSProperties } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowLeft, Footprints, Layers, Map as MapIcon, Stamp } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { DifficultyMeter, FormatTag, HookBadge, PlaceholderTag, ReadingTime, SubjectBadge } from "../components/Badges";
 import { CheckIn } from "../components/CheckIn";
 import { PieceLinkCard } from "../components/PieceLinkCard";
 import { getPiece, nextInSeries, prerequisites, readingTime, relatedPieces } from "../lib/content";
 import { Markdown } from "../lib/markdown";
+import { markFinished, markOpened } from "../lib/progress";
 import { subjectColor, subjectGradient } from "../lib/subjects";
 
 export default function Reader() {
@@ -15,8 +16,29 @@ export default function Reader() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const endRef = useRef<HTMLDivElement>(null);
+  const [justStamped, setJustStamped] = useState(false);
+  const stamp = () => {
+    if (piece && markFinished(piece.id)) {
+      setJustStamped(true);
+      setTimeout(() => setJustStamped(false), 3200);
+    }
+  };
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    setJustStamped(false);
+    if (id && getPiece(id)) markOpened(id);
+  }, [id]);
+
+  // Reaching the end of the piece stamps it in the reader's passport.
+  useEffect(() => {
+    const el = endRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver((entries) => entries.some((e) => e.isIntersecting) && stamp(), { threshold: 1 });
+    io.observe(el);
+    return () => io.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   if (!piece) {
@@ -123,11 +145,11 @@ export default function Reader() {
 
         <Markdown body={piece.body} className="prose-literary drop-cap" />
 
-        <div className="my-12 text-center font-display text-2xl tracking-[0.5em] text-muted" aria-hidden>
+        <div ref={endRef} className="my-12 text-center font-display text-2xl tracking-[0.5em] text-muted" aria-hidden>
           ⁂
         </div>
 
-        <CheckIn piece={piece} />
+        <CheckIn piece={piece} onAnswer={stamp} />
 
         {next && (
           <section className="mt-12">
@@ -159,6 +181,35 @@ export default function Reader() {
           </Link>
         </div>
       </article>
+
+      <AnimatePresence>
+        {justStamped && (
+          <motion.div
+            role="status"
+            className="fixed inset-x-0 bottom-[calc(var(--tabbar-h)+env(safe-area-inset-bottom)+12px)] z-40 flex justify-center px-4 md:bottom-8"
+            initial={{ opacity: 0, y: 24, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ type: "spring", damping: 20, stiffness: 300 }}
+          >
+            <Link
+              to="/passport"
+              className="flex h-12 items-center gap-2.5 rounded-full bg-ink pl-2 pr-5 font-sans text-sm font-semibold text-card shadow-lift"
+            >
+              <motion.span
+                className="grid h-9 w-9 place-items-center rounded-full text-[#1d1712]"
+                style={{ background: subjectColor(main) }}
+                initial={{ rotate: -40, scale: 1.6 }}
+                animate={{ rotate: -8, scale: 1 }}
+                transition={{ type: "spring", damping: 10, stiffness: 260 }}
+              >
+                <Stamp size={18} strokeWidth={2.4} />
+              </motion.span>
+              Stamped in your passport
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

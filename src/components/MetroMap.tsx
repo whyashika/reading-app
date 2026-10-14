@@ -12,6 +12,7 @@ import {
 } from "react";
 import type { Subject } from "../content/types";
 import { LABEL, labelOffset, stationRadius, type MetroLayout, type Station } from "../lib/metroLayout";
+import { pieceStatus, usePassport } from "../lib/progress";
 import { subjectColor } from "../lib/subjects";
 import { FormatIcon } from "./Badges";
 
@@ -188,6 +189,7 @@ export const MetroMap = forwardRef<MetroMapHandle, Props>(function MetroMap({ la
     e.preventDefault();
   };
 
+  const passport = usePassport();
   const onLine = (st: Station) => !highlight || st.lines.includes(highlight);
   const orderedLines = [...layout.lines].sort((a, b) => (a.subject === highlight ? 1 : 0) - (b.subject === highlight ? 1 : 0));
 
@@ -263,13 +265,15 @@ export const MetroMap = forwardRef<MetroMapHandle, Props>(function MetroMap({ la
           const selected = selectedId === st.piece.id;
           const r = stationRadius(st.interchange);
           const label = st.label;
+          const status = pieceStatus(st.piece, passport);
+          const done = status === "finished";
           return (
             <g key={st.piece.id} transform={`translate(${st.x}, ${st.y})`} style={{ opacity: active ? 1 : 0.22, transition: "opacity 0.35s" }}>
             <motion.g
               className="cursor-pointer outline-none [&:focus-visible_.focus-ring]:opacity-100"
               role="button"
               tabIndex={0}
-              aria-label={`${st.piece.title}. ${st.piece.format}. ${st.interchange ? `Interchange: ${st.lines.join(" and ")}.` : `${st.lines[0]} line.`}`}
+              aria-label={`${st.piece.title}. ${st.piece.format}. ${st.interchange ? `Interchange: ${st.lines.join(" and ")}.` : `${st.lines[0]} line.`}${done ? " Stamped." : status === "new" ? " New." : ""}`}
               aria-pressed={selected}
               onClick={(e) => {
                 e.stopPropagation();
@@ -309,7 +313,24 @@ export const MetroMap = forwardRef<MetroMapHandle, Props>(function MetroMap({ la
                 }}
                 transition={{ type: "spring", damping: 14, stiffness: 400 }}
               >
-                {st.interchange ? (
+                {done ? (
+                  <>
+                    <circle
+                      r={r + (st.interchange ? 0 : 2)}
+                      fill={st.interchange ? "rgb(var(--ink))" : subjectColor(st.lines[0])}
+                      stroke={st.interchange ? "rgb(var(--ink))" : subjectColor(st.lines[0])}
+                      strokeWidth={st.interchange ? 4 : 2.5}
+                    />
+                    <path
+                      d={st.interchange ? "M-5.5 0.5 L-1.5 4.5 L5.5 -3.5" : "M-4 0.5 L-1 3.5 L4.5 -2.5"}
+                      fill="none"
+                      stroke={st.interchange ? "rgb(var(--card))" : "#1d1712"}
+                      strokeWidth={2.6}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </>
+                ) : st.interchange ? (
                   <>
                     <circle r={r} fill="rgb(var(--card))" stroke="rgb(var(--ink))" strokeWidth={4} />
                     {st.lines.map((s, i) => (
@@ -325,6 +346,14 @@ export const MetroMap = forwardRef<MetroMapHandle, Props>(function MetroMap({ la
                   <circle r={r} fill="rgb(var(--card))" stroke={subjectColor(st.lines[0])} strokeWidth={4.5} />
                 )}
               </motion.g>
+              {status === "new" && (
+                <g transform={`translate(${r + 2}, ${-r - 18})`} className="pointer-events-none">
+                  <rect width={36} height={17} rx={8.5} fill="rgb(var(--accent))" />
+                  <text x={18} y={12.5} textAnchor="middle" fill="rgb(var(--card))" className="font-sans text-[10px] font-bold tracking-wider">
+                    NEW
+                  </text>
+                </g>
+              )}
               <g transform={`translate(0, ${labelOffset(st)})`}>
                 <FormatIcon format={st.piece.format} x={-8} y={0} size={16} strokeWidth={2.2} color="rgb(var(--muted))" />
                 <text

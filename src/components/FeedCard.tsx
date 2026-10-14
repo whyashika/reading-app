@@ -6,7 +6,8 @@ import type { Piece } from "../content/types";
 import { readingTime } from "../lib/content";
 import { blocks, Markdown } from "../lib/markdown";
 import { subjectColor, subjectGradient } from "../lib/subjects";
-import { DifficultyMeter, FormatTag, PlaceholderTag, ReadingTime, SubjectBadge } from "./Badges";
+import { usePieceStatus } from "../lib/progress";
+import { DifficultyMeter, FormatTag, PlaceholderTag, ReadingTime, StatusBadge, SubjectBadge } from "./Badges";
 import { BottomSheet } from "./BottomSheet";
 import { PieceDetails } from "./PieceDetails";
 
@@ -28,6 +29,7 @@ export function FeedCard({
   const main = piece.subject[0];
   const excerpt = blocks(piece.body).slice(0, 5).join("\n\n");
   const popoverRef = useRef<HTMLDivElement>(null);
+  const status = usePieceStatus(piece);
 
   // Desktop popover: close on outside click or Escape.
   useEffect(() => {
@@ -77,6 +79,7 @@ export function FeedCard({
             {piece.subject.map((s) => (
               <SubjectBadge key={s} subject={s} />
             ))}
+            <StatusBadge status={status} />
             {piece.placeholder && <PlaceholderTag />}
           </div>
           <motion.button
@@ -108,7 +111,7 @@ export function FeedCard({
           <ReadingTime minutes={readingTime(piece)} />
           <DifficultyMeter level={piece.difficulty} showLabel={false} />
           <span className="ml-auto inline-flex h-11 items-center gap-2 rounded-full bg-ink pl-4 pr-1.5 text-sm font-semibold text-card shadow-soft">
-            Read
+            {status === "finished" ? "Read again" : status === "started" ? "Keep reading" : "Read"}
             <span className="grid h-8 w-8 place-items-center rounded-full text-[#1d1712]" style={{ background: subjectColor(main) }}>
               <ArrowRight size={16} />
             </span>

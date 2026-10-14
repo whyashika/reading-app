@@ -2,7 +2,8 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowRight, Maximize2, Minus, Plus, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { DifficultyMeter, FormatIcon, FormatTag, PlaceholderTag, ReadingTime, SubjectBadge } from "../components/Badges";
+import { DifficultyMeter, FormatIcon, FormatTag, PlaceholderTag, ReadingTime, StatusBadge, SubjectBadge } from "../components/Badges";
+import { pieceStatus, usePassport } from "../lib/progress";
 import { MetroMap, type MetroMapHandle } from "../components/MetroMap";
 import type { Subject } from "../content/types";
 import { allPieces, getPiece, readingTime } from "../lib/content";
@@ -17,6 +18,7 @@ export default function MapPage() {
   const [selectedId, setSelectedId] = useState<string | null>(getPiece(focus ?? undefined) ? focus : null);
   const [highlight, setHighlight] = useState<Subject | null>(null);
   const mapRef = useRef<MetroMapHandle>(null);
+  const passport = usePassport();
   const isDesktop = useIsDesktop();
   const selected = getPiece(selectedId ?? undefined);
   const insets = useMemo(
@@ -77,6 +79,17 @@ export default function MapPage() {
               </svg>
               Interchange
             </span>
+            <span className="flex shrink-0 items-center gap-1.5">
+              <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden>
+                <circle cx="8" cy="8" r="7" fill="rgb(var(--ink))" />
+                <path d="M4.8 8.3 L7 10.5 L11.2 6" fill="none" stroke="rgb(var(--card))" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Stamped
+            </span>
+            <span className="flex shrink-0 items-center gap-1.5">
+              <span className="rounded-full bg-accent px-1.5 text-[0.6rem] font-bold tracking-wider text-card">NEW</span>
+              Not read yet
+            </span>
             <span className="shrink-0">Left → right: easiest first</span>
           </div>
         </div>
@@ -120,6 +133,7 @@ export default function MapPage() {
               {selected.subject.map((s) => (
                 <SubjectBadge key={s} subject={s} size="sm" />
               ))}
+              <StatusBadge status={pieceStatus(selected, passport)} />
               {selected.placeholder && <PlaceholderTag />}
             </div>
             <h2 className="mt-2.5 font-display text-[1.4rem] font-semibold leading-tight">{selected.title}</h2>

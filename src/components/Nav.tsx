@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Layers3, Map as MapIcon, Moon, Sun } from "lucide-react";
+import { Layers3, Map as MapIcon, Moon, Stamp, Sun } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import { APP_NAME } from "../config";
 import { useTheme } from "../lib/hooks";
@@ -32,6 +32,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
 const TABS = [
   { to: "/", label: "Feed", icon: Layers3 },
   { to: "/map", label: "Map", icon: MapIcon },
+  { to: "/passport", label: "Passport", icon: Stamp },
 ];
 
 function isActive(to: string, pathname: string) {

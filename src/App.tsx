@@ -6,6 +6,7 @@ const Router = import.meta.env.VITE_ROUTER === "memory" ? MemoryRouter : HashRou
 import { TabBar, TopNav } from "./components/Nav";
 import Feed from "./pages/Feed";
 import MapPage from "./pages/MapPage";
+import Passport from "./pages/Passport";
 import Reader from "./pages/Reader";
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
             <Route path="/" element={<Feed />} />
             <Route path="/piece/:id" element={<Reader />} />
             <Route path="/map" element={<MapPage />} />
+            <Route path="/passport" element={<Passport />} />
             <Route path="*" element={<Feed />} />
           </Routes>
         </main>

@@ -30,7 +30,7 @@ function Burst() {
   );
 }
 
-export function CheckIn({ piece }: { piece: Piece }) {
+export function CheckIn({ piece, onAnswer }: { piece: Piece; onAnswer?: () => void }) {
   const { question, options } = piece.checkIn;
   const [picked, setPicked] = useState<number | null>(null);
   const [tried, setTried] = useState<Set<number>>(new Set());
@@ -41,6 +41,7 @@ export function CheckIn({ piece }: { piece: Piece }) {
   const pick = (i: number) => {
     if (solved) return;
     setPicked(i);
+    onAnswer?.();
     setTried((t) => new Set(t).add(i));
   };
   const reset = () => {
