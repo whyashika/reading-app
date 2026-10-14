@@ -279,5 +279,5 @@ function LineComplete({ subject, stations }: { subject: Subject; stations: Piece
 
 /** The caption that goes out with a shared line. Swap the wording here. */
 function shareLine(subject: Subject) {
-  return `Just rode the ${subject} line end to end on ${APP_NAME}. Every station stamped.`;
+  return `Got off at the last stop of the ${subject} line on ${APP_NAME}, and the ideas came with me.`;
 }
