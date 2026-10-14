@@ -638,47 +638,47 @@ Newer systems try to reduce this by checking sources, searching the web or sayin
 
   // ── 13 ────────────────────────────────────────────────────
   {
-    id: "library-of-alexandria",
-    title: "The Library That Didn't Burn in a Day",
+    id: "indus-valley-drains",
+    title: "The City That Planned Its Drains Before Its Palaces",
     subject: ["History"],
-    format: "Story",
+    format: "Explainer",
     blurb:
-      "Everyone 'knows' the great Library of Alexandria went up in one tragic fire. The real story is slower, and more useful.",
-    themes: ["Myths", "Knowledge", "Decline"],
+      "Over 4,000 years ago, the cities of the Indus Valley had grid streets and covered drains. What they built tells us what they valued.",
+    themes: ["Ancient India", "Cities", "Mystery"],
     difficulty: 1,
     realWorldHook: {
-      text: "Every time a newsroom, archive or website quietly shuts down, a little Alexandria happens.",
+      text: "Every monsoon, when a city's drains overflow, it's worth remembering Mohenjo-daro managed this 4,500 years ago.",
       type: "Evergreen",
     },
-    keyTerms: ["history", "myth", "knowledge", "institutions"],
+    keyTerms: ["indus valley", "ancient india", "cities", "planning", "history"],
     publishedDate: "2026-10-14",
     placeholder: true,
-    body: `I grew up with a picture in my head: flames licking marble shelves, scrolls curling into ash, all the knowledge of the ancient world gone in a single terrible night. It's a great scene. It's also mostly wrong.
+    body: `In school, the Indus Valley Civilisation was a page I memorised and forgot: *Harappa, Mohenjo-daro, great bath, seals*. It was only years later, stuck in a flooded street during the monsoon, that I went back and realised how astonishing those cities were.
 
-The Library of Alexandria, in Egypt, was real and it was extraordinary. Scholars there copied, collected and argued over texts from across the Mediterranean world. But historians now think it didn't die in one blaze. It **faded over centuries**: funding dried up, scholars were expelled during political fights, parts were damaged in wars, and nobody kept replacing what was lost.
+Around 2600 BCE, in what is now Pakistan and north-western India, people built cities laid out on **grids**. Main streets ran in straight lines. Houses were made of baked bricks in roughly the same proportions everywhere, as if someone had agreed on a standard. And many homes were connected to **covered drains** running along the streets, with openings where they could be cleaned. Plenty of cities today can't say that.
 
-> Libraries rarely burn down. More often, they're simply no longer looked after.
+Here's the part that fascinates me. Archaeologists haven't found the things we usually expect from a powerful ancient kingdom: no grand palaces, no giant royal tombs, no statues of conquering kings. What they found instead were granaries, wells, baths and drains. It's as if the city's pride went into *how everyone lived*, not into one ruler.
 
-Why does the myth stick? Because a single villain and a single fire make a better story than slow neglect. Stories love a dramatic moment. History, annoyingly, is often made of budgets and boredom.
+> You can read a society by what it bothers to build well.
 
-That's the lesson I keep coming back to. The things we lose usually aren't snatched away in one night. They drain away while everyone assumes someone else is looking after them.`,
+We still can't read their script, so their own words stay silent. Their cities slowly emptied after about 1900 BCE, and historians are still debating why, with shifting rivers and a changing climate among the leading ideas. But the drains speak clearly enough: someone, a very long time ago, thought ordinary people deserved clean streets.`,
     checkIn: {
-      question: "What do historians now think happened to the Library of Alexandria?",
+      question: "What makes the Indus Valley cities stand out, according to the piece?",
       options: [
         {
-          text: "It declined slowly, through lost funding, politics and damage over many years",
+          text: "Careful planning for everyday life, like grid streets and covered drains",
           isCorrect: true,
-          explanation: "Yes. Less cinematic, but closer to the evidence: neglect and many smaller losses over centuries.",
+          explanation: "Yes. Their most impressive remains are about how ordinary people lived, not monuments to a ruler.",
         },
         {
-          text: "It was destroyed in a single, famous fire",
+          text: "Their enormous palaces and royal tombs",
           isCorrect: false,
-          explanation: "That's the version most of us grew up with! It makes a great scene, but the evidence points to a much slower decline.",
+          explanation: "That's what we'd expect from most ancient kingdoms! But archaeologists haven't found grand palaces or royal tombs there.",
         },
         {
-          text: "It never really existed",
+          text: "The long written histories they left behind",
           isCorrect: false,
-          explanation: "It definitely existed, and it was remarkable. The question historians argue about is how it ended, not whether it was there.",
+          explanation: "Sadly, no. Their script is still undeciphered, which is why their buildings have to do the talking.",
         },
       ],
     },
@@ -686,47 +686,47 @@ That's the lesson I keep coming back to. The things we lose usually aren't snatc
 
   // ── 14 ────────────────────────────────────────────────────
   {
-    id: "same-stories",
-    title: "Why We Keep Telling the Same Stories",
+    id: "many-ramayanas",
+    title: "Why My Nani's Ramayana Was Different from Yours",
     subject: ["Culture"],
-    format: "Explainer",
+    format: "Story",
     blurb:
-      "A young hero leaves home, faces trials and returns changed. Why so many of our favourite stories share the same bones.",
-    themes: ["Storytelling", "Myth", "Identity"],
+      "Every family seems to tell the Ramayana a little differently. That isn't a mistake; it's how a living story travels across India and beyond.",
+    themes: ["Storytelling", "Ramayana", "Tradition"],
     difficulty: 1,
     realWorldHook: {
-      text: "Next time you watch a blockbuster, count the steps. You'll probably find most of them.",
+      text: "Every Dussehra, Ramlila stages across India retell the same epic, and no two are quite alike.",
       type: "Evergreen",
     },
-    keyTerms: ["storytelling", "myth", "culture", "archetypes"],
+    keyTerms: ["ramayana", "storytelling", "indian culture", "tradition", "myth"],
     publishedDate: "2026-10-14",
     placeholder: true,
-    body: `In my first year of literature classes, a professor drew a circle on the board and said, "This is almost every story you love." I was offended. Then she walked us through it, and I wasn't offended any more. I was a bit unsettled.
+    body: `My Nani told me the Ramayana in instalments, one chapter a night, with the lights off. Years later, a college friend from Chennai told me a scene I'd never heard, and I said, a little too confidently, "That's not in the Ramayana." She laughed. "Which one?"
 
-The circle was the **hero's journey**, a pattern the writer Joseph Campbell described after comparing myths from around the world. Someone ordinary is called to adventure. They hesitate, find a mentor, cross into an unfamiliar world, face trials, nearly lose everything, and return home changed. Ramayana, Star Wars, Harry Potter: the costumes differ, the skeleton doesn't.
+That question changed how I think about stories. The version most people call the original is **Valmiki's**, in Sanskrit. But the epic has been retold again and again. The Tamil poet **Kamban** wrote his own, centuries later. **Tulsidas** retold it in Awadhi in the 16th century as the *Ramcharitmanas*, the version many families in the north sing from today. It travelled across Southeast Asia too, becoming the *Ramakien* in Thailand. The characters stay; their emphasis, scenes and even endings shift.
 
-Why would cultures that never met tell similar stories? One idea is that stories are how humans **rehearse life**. Leaving home, facing fear, coming back wiser: these are things almost everyone goes through. A shared shape makes a story easy to follow and easy to remember.
+Each retelling reflects the people telling it. A poet in one region might linger on Sita's grief; a village Ramlila might add jokes for the crowd; a grandmother might quietly skip the parts she thinks are too frightening for a six-year-old.
 
-> A culture is partly the set of stories it agrees to keep retelling.
+> A classic isn't a story that never changes. It's a story everyone keeps wanting to tell.
 
-None of this makes stories less original. A sonnet always has fourteen lines, and yet no two good ones are the same. The pattern is the riverbed; the telling is the water.`,
+So my Nani's Ramayana wasn't wrong, and neither was my friend's. They were both part of the same very long conversation, one that's been going on for over two thousand years.`,
     checkIn: {
-      question: "According to the piece, why might so many cultures share the hero's journey shape?",
+      question: "What does the piece suggest about the many versions of the Ramayana?",
       options: [
         {
-          text: "Because it mirrors experiences most people go through, like leaving home and facing fear",
+          text: "Retelling is how the epic stays alive, and each version reflects its tellers",
           isCorrect: true,
-          explanation: "Yes. Stories may be a way of rehearsing life, so a shape that matches common experience travels well.",
+          explanation: "Exactly. Kamban, Tulsidas, a village Ramlila and your Nani are all part of the same living tradition.",
         },
         {
-          text: "Because writers copied one original story",
+          text: "Only Valmiki's version is the real one; the rest are mistakes",
           isCorrect: false,
-          explanation: "Tempting, but many of these myths grew up in places with no contact. The similarity comes from shared human experience.",
+          explanation: "That was my first instinct too! But later retellings are celebrated works in their own right, not errors.",
         },
         {
-          text: "Because the pattern was invented by modern filmmakers",
+          text: "The story is only told in Sanskrit",
           isCorrect: false,
-          explanation: "Filmmakers do use it a lot! But the pattern is far older than cinema; Campbell found it in ancient myths.",
+          explanation: "Not at all. It's been retold in Tamil, Awadhi, Thai and many more languages, which is part of its magic.",
         },
       ],
     },
