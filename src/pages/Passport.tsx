@@ -9,7 +9,7 @@ import type { Piece, Subject } from "../content/types";
 import { allPieces, getPiece } from "../lib/content";
 import { buildMetroLayout } from "../lib/metroLayout";
 import { pieceStatus, resetPassport, usePassport } from "../lib/progress";
-import { subjectColor } from "../lib/subjects";
+import { subjectColor, subjectInk } from "../lib/subjects";
 
 export default function Passport() {
   const passport = usePassport();
@@ -114,7 +114,7 @@ function LineCard({ subject, stations }: { subject: Subject; stations: Piece[] }
         <div className="pointer-events-none absolute -right-16 -top-16 h-44 w-44 rounded-full blur-3xl" style={{ background: subjectColor(subject, 0.3) }} aria-hidden />
       )}
       <div className="relative flex items-center gap-3">
-        <span className="rounded-full px-3 py-1 font-sans text-sm font-bold text-[#1d1712]" style={{ background: color }}>
+        <span className="rounded-full px-3 py-1 font-sans text-sm font-bold" style={{ background: color, color: subjectInk(subject) }}>
           {subject}
         </span>
         <span className="ml-auto font-sans text-sm font-semibold tabular-nums text-muted">
@@ -151,7 +151,7 @@ function LineCard({ subject, stations }: { subject: Subject; stations: Piece[] }
                     className="grid h-8 w-8 place-items-center rounded-full border-[3.5px]"
                     style={{ borderColor: color, background: stampedHere ? color : "rgb(var(--card))" }}
                   >
-                    {stampedHere && <Check size={16} strokeWidth={3.2} className="text-[#1d1712]" />}
+                    {stampedHere && <Check size={16} strokeWidth={3.2} style={{ color: subjectInk(subject) }} />}
                   </motion.span>
                   {status === "new" && <span className="absolute right-0.5 top-0.5 h-2.5 w-2.5 rounded-full bg-accent ring-2 ring-card" />}
                 </Link>

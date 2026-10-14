@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import type { Piece } from "../content/types";
 import { readingTime } from "../lib/content";
 import { blocks, Markdown } from "../lib/markdown";
-import { subjectColor, subjectGradient } from "../lib/subjects";
+import { subjectColor, subjectGradient, subjectInk } from "../lib/subjects";
 import { usePieceStatus } from "../lib/progress";
 import { DifficultyMeter, FormatTag, PlaceholderTag, ReadingTime, StatusBadge, SubjectBadge } from "./Badges";
 import { BottomSheet } from "./BottomSheet";
@@ -112,7 +112,7 @@ export function FeedCard({
           <DifficultyMeter level={piece.difficulty} showLabel={false} />
           <span className="ml-auto inline-flex h-11 items-center gap-2 rounded-full bg-ink pl-4 pr-1.5 text-sm font-semibold text-card shadow-soft">
             {status === "finished" ? "Read again" : status === "started" ? "Keep reading" : "Read"}
-            <span className="grid h-8 w-8 place-items-center rounded-full text-[#1d1712]" style={{ background: subjectColor(main) }}>
+            <span className="grid h-8 w-8 place-items-center rounded-full" style={{ background: subjectColor(main), color: subjectInk(main) }}>
               <ArrowRight size={16} />
             </span>
           </span>

@@ -1,4 +1,4 @@
-export const SUBJECTS = ["Finance", "Economics", "Philosophy", "Law", "Sustainability", "Tech"] as const;
+export const SUBJECTS = ["Finance", "Economics", "Philosophy", "Law", "Sustainability", "Tech", "History", "Culture"] as const;
 export type Subject = (typeof SUBJECTS)[number];
 
 export type Format = "Story" | "Explainer" | "News breakdown";

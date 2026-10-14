@@ -8,7 +8,7 @@ import { PieceLinkCard } from "../components/PieceLinkCard";
 import { getPiece, nextInSeries, prerequisites, readingTime, relatedPieces } from "../lib/content";
 import { Markdown } from "../lib/markdown";
 import { markFinished, markOpened } from "../lib/progress";
-import { subjectColor, subjectGradient } from "../lib/subjects";
+import { subjectColor, subjectGradient, subjectInk } from "../lib/subjects";
 
 export default function Reader() {
   const { id } = useParams();
@@ -197,8 +197,8 @@ export default function Reader() {
               className="flex h-12 items-center gap-2.5 rounded-full bg-ink pl-2 pr-5 font-sans text-sm font-semibold text-card shadow-lift"
             >
               <motion.span
-                className="grid h-9 w-9 place-items-center rounded-full text-[#1d1712]"
-                style={{ background: subjectColor(main) }}
+                className="grid h-9 w-9 place-items-center rounded-full"
+                style={{ background: subjectColor(main), color: subjectInk(main) }}
                 initial={{ rotate: -40, scale: 1.6 }}
                 animate={{ rotate: -8, scale: 1 }}
                 transition={{ type: "spring", damping: 10, stiffness: 260 }}

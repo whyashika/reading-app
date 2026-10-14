@@ -17,6 +17,18 @@
     --s-law: 37 99 235;
     --s-sustainability: 22 163 74;
     --s-tech: 8 145 178;
+    --s-history: 124 90 58;
+    --s-culture: 192 38 211;
+
+    /* Text colour that reads on top of each line colour */
+    --s-finance-ink: 29 23 18;
+    --s-economics-ink: 255 255 255;
+    --s-philosophy-ink: 255 255 255;
+    --s-law-ink: 255 255 255;
+    --s-sustainability-ink: 29 23 18;
+    --s-tech-ink: 29 23 18;
+    --s-history-ink: 255 255 255;
+    --s-culture-ink: 255 255 255;
 
     --tabbar-h: 64px;
     --topnav-h: 64px;
@@ -36,6 +48,17 @@
     --s-law: 96 165 250;
     --s-sustainability: 74 222 128;
     --s-tech: 34 211 238;
+    --s-history: 214 172 128;
+    --s-culture: 240 141 247;
+
+    --s-finance-ink: 29 23 18;
+    --s-economics-ink: 29 23 18;
+    --s-philosophy-ink: 29 23 18;
+    --s-law-ink: 29 23 18;
+    --s-sustainability-ink: 29 23 18;
+    --s-tech-ink: 29 23 18;
+    --s-history-ink: 29 23 18;
+    --s-culture-ink: 29 23 18;
     color-scheme: dark;
   }
 

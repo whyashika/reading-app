@@ -60,7 +60,7 @@ export default function MapPage() {
 
       {/* Legend */}
       <div className="pointer-events-none absolute inset-x-0 top-0 bg-gradient-to-b from-paper via-paper/85 to-transparent pb-6 pt-[env(safe-area-inset-top)] md:bg-none">
-        <div className="pointer-events-auto md:m-4 md:inline-block md:max-w-[min(100%-2rem,980px)] md:rounded-3xl md:border md:border-rule md:bg-card/90 md:p-2 md:shadow-soft md:backdrop-blur">
+        <div className="pointer-events-auto md:m-4 md:inline-block md:max-w-[calc(100%-2rem)] md:rounded-3xl md:border md:border-rule md:bg-card/90 md:p-2 md:shadow-soft md:backdrop-blur">
           <div className="no-scrollbar flex gap-1.5 overflow-x-auto px-3 pt-2.5 md:px-1 md:pt-0" role="toolbar" aria-label="Highlight a line">
             <LegendChip active={highlight === null} onClick={() => setHighlight(null)} label="All lines" />
             {layout.lines.map((l) => (

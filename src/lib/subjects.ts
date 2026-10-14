@@ -11,10 +11,17 @@ const KEY: Record<Subject, string> = {
   Law: "law",
   Sustainability: "sustainability",
   Tech: "tech",
+  History: "history",
+  Culture: "culture",
 };
 
 export function subjectColor(subject: Subject, alpha = 1): string {
   return alpha === 1 ? `rgb(var(--s-${KEY[subject]}))` : `rgb(var(--s-${KEY[subject]}) / ${alpha})`;
+}
+
+/** Text colour that stays readable on top of a subject's line colour. */
+export function subjectInk(subject: Subject): string {
+  return `rgb(var(--s-${KEY[subject]}-ink))`;
 }
 
 /** A soft gradient across a piece's subject colours, for card accents. */

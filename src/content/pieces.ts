@@ -635,4 +635,196 @@ Newer systems try to reduce this by checking sources, searching the web or sayin
       ],
     },
   },
+
+  // ── 13 ────────────────────────────────────────────────────
+  {
+    id: "library-of-alexandria",
+    title: "The Library That Didn't Burn in a Day",
+    subject: ["History"],
+    format: "Story",
+    blurb:
+      "Everyone 'knows' the great Library of Alexandria went up in one tragic fire. The real story is slower, and more useful.",
+    themes: ["Myths", "Knowledge", "Decline"],
+    difficulty: 1,
+    realWorldHook: {
+      text: "Every time a newsroom, archive or website quietly shuts down, a little Alexandria happens.",
+      type: "Evergreen",
+    },
+    keyTerms: ["history", "myth", "knowledge", "institutions"],
+    publishedDate: "2026-10-14",
+    placeholder: true,
+    body: `I grew up with a picture in my head: flames licking marble shelves, scrolls curling into ash, all the knowledge of the ancient world gone in a single terrible night. It's a great scene. It's also mostly wrong.
+
+The Library of Alexandria, in Egypt, was real and it was extraordinary. Scholars there copied, collected and argued over texts from across the Mediterranean world. But historians now think it didn't die in one blaze. It **faded over centuries**: funding dried up, scholars were expelled during political fights, parts were damaged in wars, and nobody kept replacing what was lost.
+
+> Libraries rarely burn down. More often, they're simply no longer looked after.
+
+Why does the myth stick? Because a single villain and a single fire make a better story than slow neglect. Stories love a dramatic moment. History, annoyingly, is often made of budgets and boredom.
+
+That's the lesson I keep coming back to. The things we lose usually aren't snatched away in one night. They drain away while everyone assumes someone else is looking after them.`,
+    checkIn: {
+      question: "What do historians now think happened to the Library of Alexandria?",
+      options: [
+        {
+          text: "It declined slowly, through lost funding, politics and damage over many years",
+          isCorrect: true,
+          explanation: "Yes. Less cinematic, but closer to the evidence: neglect and many smaller losses over centuries.",
+        },
+        {
+          text: "It was destroyed in a single, famous fire",
+          isCorrect: false,
+          explanation: "That's the version most of us grew up with! It makes a great scene, but the evidence points to a much slower decline.",
+        },
+        {
+          text: "It never really existed",
+          isCorrect: false,
+          explanation: "It definitely existed, and it was remarkable. The question historians argue about is how it ended, not whether it was there.",
+        },
+      ],
+    },
+  },
+
+  // ── 14 ────────────────────────────────────────────────────
+  {
+    id: "spice-and-empires",
+    title: "How a Pinch of Pepper Built Empires",
+    subject: ["History", "Economics"],
+    format: "Explainer",
+    blurb:
+      "Black pepper was once worth sailing halfway round the world for. How the hunt for spices reshaped maps, wars and even the stock market.",
+    themes: ["Trade", "Empire", "Value"],
+    difficulty: 2,
+    readThisFirst: ["what-makes-valuable"],
+    realWorldHook: {
+      text: "The jar of pepper in your kitchen sits at the end of one of history's most violent supply chains.",
+      type: "Evergreen",
+    },
+    keyTerms: ["trade", "scarcity", "value", "shares", "history", "empire"],
+    publishedDate: "2026-10-14",
+    placeholder: true,
+    body: `It's hard to imagine now, standing in a supermarket aisle, but black pepper from India's Malabar coast was once so prized in Europe that people called it **black gold**. Cloves and nutmeg from a handful of tiny Indonesian islands were worth even more.
+
+Why so valuable? Remember the water-and-diamonds puzzle: price follows *scarcity and desire*, not usefulness. Spices grew in only a few places, travelled through many middlemen, and were wanted badly by wealthy kitchens far away. Every hand they passed through added to the price.
+
+So European powers went looking for a way to cut out the middlemen. That search sent ships around Africa and across oceans. It also needed enormous amounts of money for very risky voyages. One solution was to let many people buy small **shares** in a trading company, so no single investor lost everything if a ship sank. The Dutch East India Company, founded in 1602, is often described as one of the first companies to sell shares to the public this way.
+
+The story isn't a happy one. Control of the spice islands was taken by force, and local people paid a terrible price. But it's a powerful example of how one desire, for flavour, can redraw maps and invent new kinds of money along the way.`,
+    checkIn: {
+      question: "Why were spices so expensive in Europe at the time?",
+      options: [
+        {
+          text: "They were scarce, grew far away, and passed through many hands before arriving",
+          isCorrect: true,
+          explanation: "Right. Scarcity, distance and desire stacked up, and each middleman added to the price.",
+        },
+        {
+          text: "They were necessary for survival",
+          isCorrect: false,
+          explanation: "A common assumption, but spices were a luxury. Like diamonds, their price came from scarcity and desire, not necessity.",
+        },
+        {
+          text: "Governments taxed them heavily",
+          isCorrect: false,
+          explanation: "Taxes played a part along the route, but the main driver was how rare and far away they were.",
+        },
+      ],
+    },
+  },
+
+  // ── 15 ────────────────────────────────────────────────────
+  {
+    id: "same-stories",
+    title: "Why We Keep Telling the Same Stories",
+    subject: ["Culture"],
+    format: "Explainer",
+    blurb:
+      "A young hero leaves home, faces trials and returns changed. Why so many of our favourite stories share the same bones.",
+    themes: ["Storytelling", "Myth", "Identity"],
+    difficulty: 1,
+    realWorldHook: {
+      text: "Next time you watch a blockbuster, count the steps. You'll probably find most of them.",
+      type: "Evergreen",
+    },
+    keyTerms: ["storytelling", "myth", "culture", "archetypes"],
+    publishedDate: "2026-10-14",
+    placeholder: true,
+    body: `In my first year of literature classes, a professor drew a circle on the board and said, "This is almost every story you love." I was offended. Then she walked us through it, and I wasn't offended any more. I was a bit unsettled.
+
+The circle was the **hero's journey**, a pattern the writer Joseph Campbell described after comparing myths from around the world. Someone ordinary is called to adventure. They hesitate, find a mentor, cross into an unfamiliar world, face trials, nearly lose everything, and return home changed. Ramayana, Star Wars, Harry Potter: the costumes differ, the skeleton doesn't.
+
+Why would cultures that never met tell similar stories? One idea is that stories are how humans **rehearse life**. Leaving home, facing fear, coming back wiser: these are things almost everyone goes through. A shared shape makes a story easy to follow and easy to remember.
+
+> A culture is partly the set of stories it agrees to keep retelling.
+
+None of this makes stories less original. A sonnet always has fourteen lines, and yet no two good ones are the same. The pattern is the riverbed; the telling is the water.`,
+    checkIn: {
+      question: "According to the piece, why might so many cultures share the hero's journey shape?",
+      options: [
+        {
+          text: "Because it mirrors experiences most people go through, like leaving home and facing fear",
+          isCorrect: true,
+          explanation: "Yes. Stories may be a way of rehearsing life, so a shape that matches common experience travels well.",
+        },
+        {
+          text: "Because writers copied one original story",
+          isCorrect: false,
+          explanation: "Tempting, but many of these myths grew up in places with no contact. The similarity comes from shared human experience.",
+        },
+        {
+          text: "Because the pattern was invented by modern filmmakers",
+          isCorrect: false,
+          explanation: "Filmmakers do use it a lot! But the pattern is far older than cinema; Campbell found it in ancient myths.",
+        },
+      ],
+    },
+  },
+
+  // ── 16 ────────────────────────────────────────────────────
+  {
+    id: "who-owns-a-folk-song",
+    title: "Who Owns a Folk Song?",
+    subject: ["Culture", "Law"],
+    format: "Story",
+    blurb:
+      "Asha remixes a song her grandmother sang at weddings, and it goes viral. Then a stranger claims the rights. Copyright meets tradition.",
+    themes: ["Ownership", "Tradition", "Creativity"],
+    difficulty: 2,
+    readThisFirst: ["terms-and-conditions"],
+    realWorldHook: {
+      text: "Remixes, samples and 'traditional' tracks spark copyright fights on music platforms all the time.",
+      type: "Evergreen",
+    },
+    keyTerms: ["copyright", "culture", "ownership", "public domain", "contract"],
+    publishedDate: "2026-10-14",
+    placeholder: true,
+    body: `Asha's grandmother sang the same song at every wedding in the family. Nobody knew who wrote it. It was just *there*, like the smell of marigolds. So when Asha laid it over a beat and posted it, it didn't occur to her to ask anyone's permission.
+
+The track took off. A week later, a message arrived from a small label: *they* had recorded the song years ago, and her video was "using their work".
+
+Here's where it gets interesting. **Copyright** protects a particular creative expression, like a specific recording or a specific arrangement, for a limited time. Very old songs whose writers are long gone are usually in the **public domain**: free for anyone to sing, adapt or record. So the label likely owns *its recording*, but not the melody Asha's grandmother sang.
+
+That means the real question is what Asha actually used. If she sang the tune herself, or used her grandmother's voice, she's probably fine. If she'd sampled the label's recording, that would be a different story.
+
+The bigger puzzle is cultural. Law likes owners. Folk songs belong to everyone who's ever sung them. Asha ended up crediting "traditional, as sung by my Nani", which might be the most accurate credit of all.`,
+    checkIn: {
+      question: "What does the label most likely own?",
+      options: [
+        {
+          text: "Its own recording of the song, but not the traditional melody itself",
+          isCorrect: true,
+          explanation: "Exactly. Copyright covers a specific expression, like a recording. The old tune is usually free for everyone.",
+        },
+        {
+          text: "The song itself, because they recorded it first",
+          isCorrect: false,
+          explanation: "A very natural guess! But recording something first doesn't make you the owner of an old, traditional melody.",
+        },
+        {
+          text: "Nothing at all",
+          isCorrect: false,
+          explanation: "Not quite. Their particular recording is their creative work, so copying that recording could still be a problem.",
+        },
+      ],
+    },
+  },
 ];

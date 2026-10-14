@@ -40,7 +40,7 @@ subject filter and on the map automatically. You never need to touch the compone
 | --- | --- | --- |
 | `id` | yes | A short, unique, URL-friendly name like `"carbon-credits"`. Used in links. |
 | `title` | yes | The headline. |
-| `subject` | yes | One or more of `"Finance"`, `"Economics"`, `"Philosophy"`, `"Law"`, `"Sustainability"`, `"Tech"`. Two or more makes it an **interchange** station on the map. |
+| `subject` | yes | One or more of `"Finance"`, `"Economics"`, `"Philosophy"`, `"Law"`, `"Sustainability"`, `"Tech"`, `"History"`, `"Culture"`. Two or more makes it an **interchange** station on the map. |
 | `format` | yes | `"Story"`, `"Explainer"` or `"News breakdown"`. |
 | `blurb` | yes | One or two sentences, shown in the info sheet and map preview. |
 | `themes` | yes | A list of short tags shown to readers, e.g. `["Climate", "Markets"]`. |
@@ -84,6 +84,14 @@ src/components/          cards, sheets, check-in, map, navigation
 src/index.css            colours (light/dark), subject line colours, reading typography
 public/                  PWA icons and offline service worker
 ```
+
+### Adding a whole new subject (a new map line)
+
+1. Add its name to `SUBJECTS` in `src/content/types.ts`.
+2. Add it to the `KEY` list in `src/lib/subjects.ts` (a short lowercase name, e.g. `art`).
+3. In `src/index.css`, add `--s-art` (its line colour) and `--s-art-ink` (the text colour on top of it:
+   `255 255 255` for darker colours, `29 23 18` for lighter ones), once under `:root` and once under `.dark`.
+4. Give at least one piece that subject. The filter chip, map line and passport row appear by themselves.
 
 Subject colours are the `--s-finance`, `--s-economics` ... variables in `src/index.css`
 (one set for light mode, a brighter set for dark mode).

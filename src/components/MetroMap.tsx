@@ -13,7 +13,7 @@ import {
 import type { Subject } from "../content/types";
 import { LABEL, labelOffset, stationRadius, type MetroLayout, type Station } from "../lib/metroLayout";
 import { pieceStatus, usePassport } from "../lib/progress";
-import { subjectColor } from "../lib/subjects";
+import { subjectColor, subjectInk } from "../lib/subjects";
 import { FormatIcon } from "./Badges";
 
 export interface MetroMapHandle {
@@ -251,7 +251,7 @@ export const MetroMap = forwardRef<MetroMapHandle, Props>(function MetroMap({ la
                   rx={15}
                   fill={subjectColor(line.subject)}
                 />
-                <text textAnchor="middle" y={5} className="font-sans text-[13px] font-bold" fill="#1d1712">
+                <text textAnchor="middle" y={5} className="font-sans text-[13px] font-bold" fill={subjectInk(line.subject)}>
                   {line.subject}
                 </text>
               </g>
@@ -324,7 +324,7 @@ export const MetroMap = forwardRef<MetroMapHandle, Props>(function MetroMap({ la
                     <path
                       d={st.interchange ? "M-5.5 0.5 L-1.5 4.5 L5.5 -3.5" : "M-4 0.5 L-1 3.5 L4.5 -2.5"}
                       fill="none"
-                      stroke={st.interchange ? "rgb(var(--card))" : "#1d1712"}
+                      stroke={st.interchange ? "rgb(var(--card))" : subjectInk(st.lines[0])}
                       strokeWidth={2.6}
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -347,7 +347,7 @@ export const MetroMap = forwardRef<MetroMapHandle, Props>(function MetroMap({ la
                 )}
               </motion.g>
               {status === "new" && (
-                <g transform={`translate(${r + 2}, ${-r - 18})`} className="pointer-events-none">
+                <g transform={`translate(${r + 2}, ${st.labelAbove ? r - 2 : -r - 18})`} className="pointer-events-none">
                   <rect width={36} height={17} rx={8.5} fill="rgb(var(--accent))" />
                   <text x={18} y={12.5} textAnchor="middle" fill="rgb(var(--card))" className="font-sans text-[10px] font-bold tracking-wider">
                     NEW
