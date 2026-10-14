@@ -5,11 +5,12 @@ import { APP_NAME } from "../config";
 import { useTheme } from "../lib/hooks";
 
 function Logo() {
+  // Same mark as the app icon (public/icons/icon.svg): a bookmark ribbon with a dot, forming an "i".
   return (
-    <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden>
-      <path d="M3 18 H10 L16 8 H23" fill="none" stroke="rgb(var(--s-philosophy))" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M3 8 H8 L13 13 L18 18 H23" fill="none" stroke="rgb(var(--s-finance))" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="13" cy="13" r="4.2" fill="rgb(var(--card))" stroke="rgb(var(--ink))" strokeWidth="2" />
+    <svg width="28" height="28" viewBox="0 0 100 100" aria-hidden>
+      <rect width="100" height="100" rx="22" fill="#16130F" stroke="rgb(var(--rule))" strokeWidth="2" />
+      <path d="M39 35.5 H61 V83.5 L50 74 L39 83.5 Z" fill="#EDE6DA" />
+      <circle cx="50" cy="22.5" r="6.5" fill="#F08C64" />
     </svg>
   );
 }
