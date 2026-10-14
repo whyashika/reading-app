@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Check, PartyPopper, Share2, Stamp } from "lucide-react";
-import { useMemo, useState } from "react";
+import { ArrowRight, Check, Download, PartyPopper, Share2, Stamp } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { StatusBadge } from "../components/Badges";
 import { PieceLinkCard } from "../components/PieceLinkCard";
@@ -9,6 +9,7 @@ import type { Piece, Subject } from "../content/types";
 import { allPieces, getPiece } from "../lib/content";
 import { buildMetroLayout } from "../lib/metroLayout";
 import { pieceStatus, resetPassport, usePassport } from "../lib/progress";
+import { drawLineCard } from "../lib/shareCard";
 import { subjectColor, subjectInk } from "../lib/subjects";
 
 export default function Passport() {
@@ -36,8 +37,8 @@ export default function Passport() {
             {stamped === 0 ? "Your first stamp is one piece away" : `${stamped} of ${allPieces.length} stations stamped`}
           </h1>
           <p className="mt-3 max-w-[60ch] font-serif text-lg leading-relaxed text-ink/75">
-            Finish a piece, or answer its check-in, and it gets stamped here. Ride a whole line and you'll know that subject's basics
-            well enough to explain them to a friend.
+            Finish a piece, or answer its check-in, and it gets stamped here. Ride a whole line, station by station, and that subject's
+            basics are yours to keep.
           </p>
           <div className="mt-5 h-2.5 overflow-hidden rounded-full bg-ink/[0.08]" role="progressbar" aria-valuemin={0} aria-valuemax={allPieces.length} aria-valuenow={stamped} aria-label="Pieces stamped">
             <motion.div
@@ -163,7 +164,7 @@ function LineCard({ subject, stations }: { subject: Subject; stations: Piece[] }
 
       <div className="relative mt-5">
         {complete ? (
-          <LineComplete subject={subject} />
+          <LineComplete subject={subject} stations={stations} />
         ) : (
           next && (
             <Link to={`/piece/${next.id}`} className="group flex min-h-11 items-center gap-3 rounded-2xl bg-ink/[0.04] px-4 py-3 transition hover:bg-ink/[0.07]">
@@ -188,22 +189,56 @@ function lastStampedIndex(stations: Piece[], finished: Record<string, string>) {
   return last;
 }
 
-function LineComplete({ subject }: { subject: Subject }) {
+function LineComplete({ subject, stations }: { subject: Subject; stations: Piece[] }) {
   const [note, setNote] = useState<string | null>(null);
-  const text = `I rode the whole ${subject} line on ${APP_NAME}. I can now explain the basics of ${subject.toLowerCase()} to a friend.`;
+  const [image, setImage] = useState<{ blob: Blob; url: string } | null>(null);
+  const pageUrl = window.location.href.split("#")[0];
+  const text = shareLine(subject);
+  const fileName = `${APP_NAME.toLowerCase()}-${subject.toLowerCase()}-line.png`;
+
+  useEffect(() => {
+    let url = "";
+    let live = true;
+    drawLineCard(subject, stations.map((p) => p.title), pageUrl)
+      .then((blob) => {
+        url = URL.createObjectURL(blob);
+        if (live) setImage({ blob, url });
+      })
+      .catch(() => undefined);
+    return () => {
+      live = false;
+      if (url) URL.revokeObjectURL(url);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [subject]);
+
+  const save = () => {
+    if (!image) return;
+    const a = document.createElement("a");
+    a.href = image.url;
+    a.download = fileName;
+    a.click();
+    setNote("Saved. Post it wherever you like.");
+  };
+
   const share = async () => {
-    const url = window.location.href.split("#")[0];
     try {
-      if (navigator.share) {
-        await navigator.share({ title: `${subject} line complete`, text, url });
+      const file = image && new File([image.blob], fileName, { type: "image/png" });
+      if (file && navigator.canShare?.({ files: [file] })) {
+        await navigator.share({ files: [file], title: `${subject} line complete`, text: `${text} ${pageUrl}` });
         return;
       }
-      await navigator.clipboard.writeText(`${text} ${url}`);
-      setNote("Copied. Paste it anywhere.");
+      if (navigator.share) {
+        await navigator.share({ title: `${subject} line complete`, text, url: pageUrl });
+        return;
+      }
+      await navigator.clipboard.writeText(`${text} ${pageUrl}`);
+      setNote("Caption copied. Save the image too, then paste both anywhere.");
     } catch {
       setNote(null);
     }
   };
+
   return (
     <motion.div
       initial={{ scale: 0.92, rotate: -2, opacity: 0 }}
@@ -215,13 +250,34 @@ function LineComplete({ subject }: { subject: Subject }) {
       <div className="flex items-center gap-2 font-display text-lg font-semibold">
         <PartyPopper size={20} style={{ color: subjectColor(subject) }} /> Line complete!
       </div>
-      <p className="mt-1 font-serif leading-relaxed">You can now explain the basics of {subject.toLowerCase()} to a friend.</p>
-      <div className="mt-3 flex flex-wrap items-center gap-3">
+      <p className="mt-1 font-serif leading-relaxed">
+        You rode the {subject} line end to end. Every station is stamped in your passport.
+      </p>
+      {image && (
+        <img
+          src={image.url}
+          alt={`Your ${subject} line stamp, ready to share`}
+          className="mt-3 w-40 rounded-xl shadow-soft ring-1 ring-rule"
+        />
+      )}
+      <div className="mt-3 flex flex-wrap items-center gap-2">
         <button onClick={share} className="flex h-11 items-center gap-2 rounded-full bg-ink px-4 font-sans text-sm font-semibold text-card transition hover:opacity-90">
           <Share2 size={16} /> Share it
+        </button>
+        <button
+          onClick={save}
+          disabled={!image}
+          className="flex h-11 items-center gap-2 rounded-full px-4 font-sans text-sm font-semibold ring-1 ring-rule transition hover:bg-ink/5 disabled:opacity-50"
+        >
+          <Download size={16} /> Save image
         </button>
         {note && <span className="font-sans text-sm text-muted">{note}</span>}
       </div>
     </motion.div>
   );
+}
+
+/** The caption that goes out with a shared line. Swap the wording here. */
+function shareLine(subject: Subject) {
+  return `Just rode the ${subject} line end to end on ${APP_NAME}. Every station stamped.`;
 }
