@@ -1,6 +1,6 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Check, RotateCcw, Sparkles, X } from "lucide-react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import type { Piece } from "../content/types";
 
 const LETTERS = "ABCDEFGH";
@@ -30,8 +30,34 @@ function Burst() {
   );
 }
 
+/**
+ * Options are shuffled for display, so the right answer isn't always first.
+ * The order is seeded by the piece's id: the same piece always shows the same order,
+ * and writers can keep listing the correct answer first in pieces.ts.
+ */
+function shuffledFor<T>(seed: string, items: T[]): T[] {
+  let h = 1779033703 ^ seed.length;
+  for (const ch of seed) {
+    h = Math.imul(h ^ ch.charCodeAt(0), 3432918353);
+    h = (h << 13) | (h >>> 19);
+  }
+  const rand = () => {
+    h = Math.imul(h ^ (h >>> 16), 2246822507);
+    h = Math.imul(h ^ (h >>> 13), 3266489909);
+    h ^= h >>> 16;
+    return (h >>> 0) / 4294967296;
+  };
+  const out = [...items];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(rand() * (i + 1));
+    [out[i], out[j]] = [out[j], out[i]];
+  }
+  return out;
+}
+
 export function CheckIn({ piece, onAnswer }: { piece: Piece; onAnswer?: () => void }) {
-  const { question, options } = piece.checkIn;
+  const { question } = piece.checkIn;
+  const options = useMemo(() => shuffledFor(piece.id, piece.checkIn.options), [piece]);
   const [picked, setPicked] = useState<number | null>(null);
   const [tried, setTried] = useState<Set<number>>(new Set());
   const reduce = useReducedMotion();

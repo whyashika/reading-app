@@ -52,7 +52,7 @@ subject filter and on the map automatically. You never need to touch the compone
 | `whyToday` | no | A highlighted "Why this matters today" box near the top: `{ text: "...", link: { label: "...", url: "https://..." } }` (the link is optional). Only add it to pieces tied to the news. |
 | `series` | no | `{ name: "The Price of Everything", part: 2, totalParts: 2 }`. Parts link to each other automatically. |
 | `keyTerms` | yes | **Hidden** tags, never shown to readers. Pieces sharing key terms are suggested as "related". Use `[]` if none. |
-| `checkIn` | yes | One question with options. Each option has `text`, `isCorrect` (`true` for the right one) and an `explanation` shown when picked, right or wrong. |
+| `checkIn` | yes | One question with options. Each option has `text`, `isCorrect` (`true` for the right one) and an `explanation` shown when picked, right or wrong. Write the options in any order (listing the right one first is fine): the app shuffles them for readers, and each piece always shows the same order. |
 | `publishedDate` | yes | `"YYYY-MM-DD"`. The feed shows newest first. |
 | `placeholder` | no | `true` shows a small "Placeholder" tag, for a piece you want to mark as unfinished. Leave it out on finished pieces. |
 
