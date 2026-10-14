@@ -1,4 +1,4 @@
-# [APP NAME]: reading app prototype
+# Infolio
 
 A mobile-first, installable (PWA) reading app: short pieces that make finance, economics,
 philosophy, law, sustainability and tech easy to grasp. Built with React, Vite, TypeScript,

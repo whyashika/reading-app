@@ -2,7 +2,7 @@
  * App-wide settings. Change the name here and it updates everywhere:
  * the nav bar, the browser tab title and the installable (PWA) app name.
  */
-export const APP_NAME = "[APP NAME]";
+export const APP_NAME = "Infolio";
 
 /** A one-line description, used in the install manifest and the page's meta tags. */
 export const APP_TAGLINE = "Hard ideas, told simply, by a fellow learner.";
