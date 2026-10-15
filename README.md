@@ -71,6 +71,10 @@ Definitions live in `src/content/glossary.ts`. The first time a term (or one of 
 - **Quote cards:** readers can highlight any line (up to 280 characters) and tap "Make a quote card" to share or save it as an image.
 - **Reading streak:** finishing at least one piece a day (re-reads count) grows the streak on the Passport page. Miss a whole day and it starts again.
 
+## Route planner
+
+Readers open it from the map ("Plan my route") or the Passport page, type a goal in their own words, and get a short path of stations to read in order. Out of the box it matches the goal against each piece's subjects, themes and key terms, so filling those in well makes routes better. To switch on AI planning, follow `worker/route-planner/README.md`.
+
 ## Concept passport
 
 Readers get a stamp for each piece they finish (they reach the end, or answer the check-in).

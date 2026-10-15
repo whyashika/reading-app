@@ -15,3 +15,10 @@ export const WORDS_PER_MINUTE = 220;
 
 /** An unopened piece counts as "New" if it was published within this many days (or since the reader's last visit). */
 export const NEW_PIECE_DAYS = 30;
+
+/**
+ * The web address of the route planner's AI helper (the small Cloudflare Worker in worker/route-planner).
+ * Leave it empty and the planner still works, by matching a reader's goal against each piece's
+ * subjects, themes and key terms. Paste the Worker's URL here once it's set up to switch on AI planning.
+ */
+export const ROUTE_PLANNER_URL = "";

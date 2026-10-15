@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Download, PartyPopper, Share2, Stamp } from "lucide-react";
+import { ArrowRight, Check, Download, PartyPopper, Route as RouteIcon, Share2, Stamp } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { StatusBadge } from "../components/Badges";
@@ -53,6 +53,18 @@ export default function Passport() {
         </header>
 
         <StreakCard />
+
+        <Link
+          to="/route"
+          className="group mt-4 flex min-h-11 items-center gap-3 rounded-3xl border border-dashed border-ink/25 px-5 py-4 transition hover:border-ink/50 hover:bg-ink/[0.03]"
+        >
+          <RouteIcon size={22} className="shrink-0 text-muted" />
+          <span className="flex-1">
+            <span className="block font-display text-lg font-semibold leading-snug">Have something specific in mind?</span>
+            <span className="block font-sans text-sm text-muted">Tell the route planner your goal and get a path through the stations.</span>
+          </span>
+          <ArrowRight size={18} className="shrink-0 text-muted transition group-hover:translate-x-1 group-hover:text-ink" />
+        </Link>
 
         {fresh.length > 0 && (
           <section className="mt-8">

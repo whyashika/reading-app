@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Maximize2, Minus, Plus, X } from "lucide-react";
+import { ArrowRight, Maximize2, Minus, Plus, Route as RouteIcon, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { DifficultyMeter, FormatIcon, FormatTag, PlaceholderTag, ReadingTime, StatusBadge, SubjectBadge } from "../components/Badges";
@@ -94,6 +94,16 @@ export default function MapPage() {
           </div>
         </div>
       </div>
+
+      {/* Route planner entry */}
+      {!selected && (
+        <Link
+          to="/route"
+          className="absolute bottom-4 left-3 flex h-12 items-center gap-2 rounded-full bg-ink pl-4 pr-5 font-sans text-sm font-semibold text-card shadow-lift transition hover:opacity-90 md:bottom-6 md:left-6"
+        >
+          <RouteIcon size={18} /> Plan my route
+        </Link>
+      )}
 
       {/* Zoom controls */}
       <div className={`absolute bottom-4 right-3 flex-col overflow-hidden rounded-2xl border border-rule bg-card/95 shadow-soft backdrop-blur md:bottom-6 md:right-5 ${selected && !isDesktop ? "hidden" : "flex"}`}>

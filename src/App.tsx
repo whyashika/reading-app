@@ -8,6 +8,7 @@ import Feed from "./pages/Feed";
 import MapPage from "./pages/MapPage";
 import Passport from "./pages/Passport";
 import Reader from "./pages/Reader";
+import RoutePlanner from "./pages/RoutePlanner";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
             <Route path="/" element={<Feed />} />
             <Route path="/piece/:id" element={<Reader />} />
             <Route path="/map" element={<MapPage />} />
+            <Route path="/route" element={<RoutePlanner />} />
             <Route path="/passport" element={<Passport />} />
             <Route path="*" element={<Feed />} />
           </Routes>

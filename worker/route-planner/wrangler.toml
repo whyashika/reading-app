@@ -1,0 +1,12 @@
+# The route planner's AI helper. See worker/route-planner/README.md for setup.
+name = "infolio-route-planner"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+compatibility_flags = ["nodejs_compat"]
+
+[vars]
+# Which websites may call this helper (comma-separated). Add https://infolio.in once the domain is live.
+ALLOWED_ORIGINS = "https://whyashika.github.io"
+
+# The Claude API key is a secret, never written here. Set it with:
+#   npx wrangler secret put ANTHROPIC_API_KEY
