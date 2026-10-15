@@ -3,6 +3,7 @@ import { HashRouter, MemoryRouter, Route, Routes } from "react-router-dom";
 
 // The single-file web preview runs inside a sandboxed frame, where URL changes aren't allowed.
 const Router = import.meta.env.VITE_ROUTER === "memory" ? MemoryRouter : HashRouter;
+import { HowItWorks } from "./components/HowItWorks";
 import { TabBar, TopNav } from "./components/Nav";
 import Feed from "./pages/Feed";
 import MapPage from "./pages/MapPage";
@@ -15,6 +16,7 @@ export default function App() {
     <MotionConfig reducedMotion="user">
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <TopNav />
+        <HowItWorks />
         <main>
           <Routes>
             <Route path="/" element={<Feed />} />

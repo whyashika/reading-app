@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowRight, Maximize2, Minus, Plus, Route as RouteIcon, X } from "lucide-react";
+import { ArrowRight, CircleHelp, Maximize2, Minus, Plus, Route as RouteIcon, X } from "lucide-react";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { DifficultyMeter, FormatIcon, FormatTag, PlaceholderTag, ReadingTime, StatusBadge, SubjectBadge } from "../components/Badges";
@@ -17,6 +17,7 @@ export default function MapPage() {
   const focus = params.get("focus");
   const [selectedId, setSelectedId] = useState<string | null>(getPiece(focus ?? undefined) ? focus : null);
   const [highlight, setHighlight] = useState<Subject | null>(null);
+  const [showKey, setShowKey] = useState(false);
   const mapRef = useRef<MetroMapHandle>(null);
   const passport = usePassport();
   const isDesktop = useIsDesktop();
@@ -67,7 +68,17 @@ export default function MapPage() {
               <LegendChip key={l.subject} active={highlight === l.subject} onClick={() => toggleLine(l.subject)} label={l.subject} color={subjectColor(l.subject)} />
             ))}
           </div>
-          <div className="no-scrollbar flex items-center gap-4 overflow-x-auto px-4 pt-1.5 font-sans text-[0.72rem] font-medium text-muted md:px-3 md:pb-1">
+          {!isDesktop && (
+            <button
+              onClick={() => setShowKey((k) => !k)}
+              aria-expanded={showKey}
+              className="ml-3 mt-1 flex h-9 items-center gap-1 rounded-full px-2 font-sans text-xs font-semibold text-muted"
+            >
+              <CircleHelp size={14} /> {showKey ? "Hide key" : "What do the symbols mean?"}
+            </button>
+          )}
+          {(isDesktop || showKey) && (
+          <div className="no-scrollbar flex flex-wrap items-center gap-x-4 gap-y-1.5 px-4 pt-1 font-sans text-[0.72rem] font-medium text-muted md:flex-nowrap md:overflow-x-auto md:px-3 md:pb-1 md:pt-1.5">
             {(["Story", "Explainer", "News breakdown"] as const).map((f) => (
               <span key={f} className="flex shrink-0 items-center gap-1">
                 <FormatIcon format={f} size={13} strokeWidth={2.3} /> {f}
@@ -92,6 +103,7 @@ export default function MapPage() {
             </span>
             <span className="shrink-0">Left → right: easiest first</span>
           </div>
+          )}
         </div>
       </div>
 

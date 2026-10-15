@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Check, Download, PartyPopper, Route as RouteIcon, Share2, Stamp } from "lucide-react";
+import { ArrowRight, Check, Download, PartyPopper, Share2, Stamp } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { StatusBadge } from "../components/Badges";
@@ -39,8 +39,7 @@ export default function Passport() {
             {stamped === 0 ? "Your first stamp is one piece away" : `${stamped} of ${allPieces.length} stations stamped`}
           </h1>
           <p className="mt-3 max-w-[60ch] font-serif text-lg leading-relaxed text-ink/75">
-            Finish a piece, or answer its check-in, and it gets stamped here. Complete a whole line, station by station, and that subject's
-            basics are yours to keep.
+            Finish a piece and it's stamped here. Complete a line and that subject's basics are yours to keep.
           </p>
           <div className="mt-5 h-2.5 overflow-hidden rounded-full bg-ink/[0.08]" role="progressbar" aria-valuemin={0} aria-valuemax={allPieces.length} aria-valuenow={stamped} aria-label="Pieces stamped">
             <motion.div
@@ -54,25 +53,13 @@ export default function Passport() {
 
         <StreakCard />
 
-        <Link
-          to="/route"
-          className="group mt-4 flex min-h-11 items-center gap-3 rounded-3xl border border-dashed border-ink/25 px-5 py-4 transition hover:border-ink/50 hover:bg-ink/[0.03]"
-        >
-          <RouteIcon size={22} className="shrink-0 text-muted" />
-          <span className="flex-1">
-            <span className="block font-display text-lg font-semibold leading-snug">Have something specific in mind?</span>
-            <span className="block font-sans text-sm text-muted">Tell the route planner your goal and get a path through the stations.</span>
-          </span>
-          <ArrowRight size={18} className="shrink-0 text-muted transition group-hover:translate-x-1 group-hover:text-ink" />
-        </Link>
-
         {fresh.length > 0 && (
           <section className="mt-8">
             <h2 className="label mb-3 flex items-center gap-2 text-muted">
               New for you <span className="rounded-full bg-accent px-1.5 text-card">{fresh.length}</span>
             </h2>
             <div className="grid gap-3 sm:grid-cols-2">
-              {fresh.map((p) => (
+              {fresh.slice(0, 3).map((p) => (
                 <PieceLinkCard key={p.id} piece={p} />
               ))}
             </div>

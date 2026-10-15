@@ -95,12 +95,12 @@ export default function RoutePlanner() {
         </form>
 
         <div className="mt-3 flex flex-wrap gap-2" aria-label="Example goals">
-          {EXAMPLES.map((ex) => (
+          {EXAMPLES.map((ex, i) => (
             <button
               key={ex}
               onClick={() => plan(ex)}
               disabled={busy}
-              className="min-h-11 rounded-full border border-rule px-3.5 py-2 text-left font-sans text-sm text-ink/80 transition hover:border-ink/40 hover:bg-ink/5 disabled:opacity-50"
+              className={`min-h-11 rounded-full border border-rule px-3.5 py-2 text-left font-sans text-sm text-ink/80 transition hover:border-ink/40 hover:bg-ink/5 disabled:opacity-50 ${i >= 3 ? "hidden sm:block" : ""}`}
             >
               {ex}
             </button>

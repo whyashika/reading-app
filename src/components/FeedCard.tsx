@@ -7,7 +7,8 @@ import { readingTime } from "../lib/content";
 import { blocks, Markdown } from "../lib/markdown";
 import { subjectColor, subjectGradient, subjectInk } from "../lib/subjects";
 import { usePieceStatus } from "../lib/progress";
-import { DifficultyMeter, FormatTag, PlaceholderTag, ReadingTime, StatusBadge, SubjectBadge } from "./Badges";
+import { useSeen } from "../lib/onboarding";
+import { PlaceholderTag, StatusBadge, SubjectBadge } from "./Badges";
 import { BottomSheet } from "./BottomSheet";
 import { PieceDetails } from "./PieceDetails";
 
@@ -30,6 +31,7 @@ export function FeedCard({
   const excerpt = blocks(piece.body).slice(0, 5).join("\n\n");
   const popoverRef = useRef<HTMLDivElement>(null);
   const status = usePieceStatus(piece);
+  const swipeSeen = useSeen("swipe");
 
   // Desktop popover: close on outside click or Escape.
   useEffect(() => {
@@ -62,13 +64,6 @@ export function FeedCard({
         style={{ background: subjectColor(main, 0.22) }}
         aria-hidden
       />
-      {piece.subject[1] && (
-        <div
-          className="pointer-events-none absolute -bottom-28 -left-20 h-64 w-64 rounded-full blur-3xl"
-          style={{ background: subjectColor(piece.subject[1], 0.16) }}
-          aria-hidden
-        />
-      )}
 
       {/* The whole card opens the piece */}
       <Link to={`/piece/${piece.id}`} className="absolute inset-0 z-0 rounded-[28px]" aria-label={`Read “${piece.title}”`} />
@@ -96,10 +91,7 @@ export function FeedCard({
           </motion.button>
         </div>
 
-        <div className="mt-4">
-          <FormatTag format={piece.format} />
-        </div>
-        <h2 className="mt-2 font-display text-[1.95rem] font-semibold leading-[1.08] tracking-tight text-balance md:text-[2.5rem]">
+        <h2 className="mt-4 font-display text-[1.95rem] font-semibold leading-[1.08] tracking-tight text-balance md:text-[2.5rem]">
           {piece.title}
         </h2>
 
@@ -108,8 +100,9 @@ export function FeedCard({
         </div>
 
         <div className="flex items-center gap-4 pt-3">
-          <ReadingTime minutes={readingTime(piece)} />
-          <DifficultyMeter level={piece.difficulty} showLabel={false} />
+          <span className="font-sans text-sm font-medium text-muted">
+            {piece.format} · {readingTime(piece)} min
+          </span>
           <span className="ml-auto inline-flex h-11 items-center gap-2 rounded-full bg-ink pl-4 pr-1.5 text-sm font-semibold text-card shadow-soft">
             {status === "finished" ? "Read again" : status === "started" ? "Keep reading" : "Read"}
             <span className="grid h-8 w-8 place-items-center rounded-full" style={{ background: subjectColor(main), color: subjectInk(main) }}>
@@ -117,7 +110,7 @@ export function FeedCard({
             </span>
           </span>
         </div>
-        {showSwipeHint && !isDesktop && (
+        {showSwipeHint && !swipeSeen && !isDesktop && (
           <motion.div
             className="mt-2 flex items-center justify-center gap-1 text-xs font-medium text-muted"
             animate={{ y: [0, -4, 0] }}

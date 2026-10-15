@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
-import { Layers3, Map as MapIcon, Moon, Stamp, Sun } from "lucide-react";
-import { NavLink, useLocation } from "react-router-dom";
+import { CircleHelp, Layers3, Map as MapIcon, Menu, Moon, Route as RouteIcon, Stamp, Sun } from "lucide-react";
+import { useState } from "react";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { openIntro } from "../lib/onboarding";
+import { BottomSheet } from "./BottomSheet";
 import { APP_NAME } from "../config";
 import { useTheme } from "../lib/hooks";
 
@@ -69,7 +72,13 @@ export function TopNav() {
             );
           })}
         </nav>
-        <ThemeToggle className="ml-auto" />
+        <button
+          onClick={openIntro}
+          className="ml-auto flex h-11 items-center gap-2 rounded-full px-4 text-sm font-semibold text-muted transition hover:bg-ink/5 hover:text-ink"
+        >
+          <CircleHelp size={18} /> How it works
+        </button>
+        <ThemeToggle />
       </div>
     </header>
   );
@@ -95,10 +104,50 @@ export function TabBar() {
             </NavLink>
           );
         })}
-        <div className="flex flex-1 items-center justify-center">
-          <ThemeToggle />
-        </div>
+        <MoreButton />
       </div>
     </nav>
+  );
+}
+
+/** Phone tab bar's fourth slot: the quieter extras live here instead of on every screen. */
+function MoreButton() {
+  const [open, setOpen] = useState(false);
+  const { dark, toggle } = useTheme();
+  const navigate = useNavigate();
+  const row = "flex min-h-14 w-full items-center gap-4 rounded-2xl px-3 text-left font-sans text-[1.02rem] font-semibold transition hover:bg-ink/5";
+  return (
+    <>
+      <button onClick={() => setOpen(true)} className="relative flex flex-1 flex-col items-center justify-center gap-0.5" aria-haspopup="dialog">
+        <Menu size={22} className="relative mt-1 text-muted" />
+        <span className="relative text-[0.7rem] font-semibold text-muted">More</span>
+      </button>
+      <BottomSheet open={open} onClose={() => setOpen(false)} label="More">
+        <div className="pb-2 pt-6">
+          <button
+            className={row}
+            onClick={() => {
+              setOpen(false);
+              openIntro();
+            }}
+          >
+            <CircleHelp size={22} className="text-muted" /> How {APP_NAME} works
+          </button>
+          <button
+            className={row}
+            onClick={() => {
+              setOpen(false);
+              navigate("/route");
+            }}
+          >
+            <RouteIcon size={22} className="text-muted" /> Plan a reading route
+          </button>
+          <button className={row} onClick={toggle} aria-pressed={dark}>
+            {dark ? <Sun size={22} className="text-muted" /> : <Moon size={22} className="text-muted" />}
+            {dark ? "Light mode" : "Dark mode"}
+          </button>
+        </div>
+      </BottomSheet>
+    </>
   );
 }

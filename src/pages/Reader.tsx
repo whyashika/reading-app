@@ -2,16 +2,17 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Flame, Footprints, Headphones, Highlighter, Layers, Map as MapIcon, Stamp } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { DifficultyMeter, FormatTag, HookBadge, PlaceholderTag, ReadingTime, SubjectBadge } from "../components/Badges";
+import { PlaceholderTag, SubjectBadge } from "../components/Badges";
 import { CheckIn } from "../components/CheckIn";
 import { ListenPlayer } from "../components/ListenPlayer";
 import { QuoteMaker } from "../components/QuoteMaker";
 import { WhyToday } from "../components/WhyToday";
 import { PieceLinkCard } from "../components/PieceLinkCard";
-import { getPiece, nextInSeries, prerequisites, readingTime, relatedPieces } from "../lib/content";
+import { DIFFICULTY_LABEL, getPiece, nextInSeries, prerequisites, readingTime, relatedPieces } from "../lib/content";
 import { Markdown } from "../lib/markdown";
 import { markFinished, markOpened, useStreak } from "../lib/progress";
 import { speechSupported, useSpeech } from "../lib/useSpeech";
+import { markSeen, useSeen } from "../lib/onboarding";
 import { subjectColor, subjectGradient, subjectInk } from "../lib/subjects";
 
 export default function Reader() {
@@ -37,6 +38,9 @@ export default function Reader() {
   };
 
   const [listening, setListening] = useState(false);
+  // The quote-card tip shows on the first piece someone reads, then steps aside.
+  const quoteTipSeen = useSeen("quote-tip");
+  useEffect(() => () => markSeen("quote-tip"), []);
   const speech = useSpeech(piece?.title ?? "", piece?.body ?? "", stamp);
 
   useEffect(() => {
@@ -82,7 +86,7 @@ export default function Reader() {
 
   const prereqs = prerequisites(piece);
   const next = nextInSeries(piece);
-  const related = relatedPieces(piece);
+  const related = relatedPieces(piece, 2);
   const main = piece.subject[0];
   // Go back if we came from inside the app, otherwise to the feed.
   const back = () => (location.key !== "default" ? navigate(-1) : navigate("/"));
@@ -123,10 +127,9 @@ export default function Reader() {
           )}
           <Link
             to={`/map?focus=${piece.id}`}
-            className={`${speechSupported ? "" : "ml-auto "}flex h-11 items-center gap-1.5 rounded-full px-3 text-sm font-semibold text-muted transition hover:bg-ink/5 hover:text-ink`}
+            className={`${speechSupported ? "" : "ml-auto "}hidden h-11 items-center gap-1.5 rounded-full px-3 text-sm font-semibold text-muted transition hover:bg-ink/5 hover:text-ink sm:flex`}
           >
-            <MapIcon size={18} /> <span className="sm:hidden">Map</span>
-            <span className="hidden sm:inline">On the map</span>
+            <MapIcon size={18} /> On the map
           </Link>
         </div>
         <div className="h-1" style={{ background: subjectGradient(piece.subject) }} />
@@ -149,46 +152,29 @@ export default function Reader() {
             {piece.title}
           </h1>
           <p className="mt-4 font-serif text-lg italic leading-relaxed text-ink/75 md:text-xl">{piece.blurb}</p>
-          <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 border-y border-rule py-3">
-            <FormatTag format={piece.format} />
-            <ReadingTime minutes={readingTime(piece)} />
-            <DifficultyMeter level={piece.difficulty} />
-          </div>
-          {piece.realWorldHook && (
-            <div className="mt-4 flex items-start gap-2.5 font-sans text-sm leading-relaxed text-ink/80">
-              <span className="mt-0.5 shrink-0"><HookBadge type={piece.realWorldHook.type} /></span>
-              <span>{piece.realWorldHook.text}</span>
-            </div>
-          )}
+          <p className="mt-5 border-b border-rule pb-4 font-sans text-sm font-medium text-muted">
+            {piece.format} · {readingTime(piece)} min read · {DIFFICULTY_LABEL[piece.difficulty]}
+          </p>
         </header>
 
         {piece.whyToday && <WhyToday why={piece.whyToday} />}
 
         {prereqs.length > 0 && (
-          <motion.aside
-            initial={{ opacity: 0, scale: 0.97 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2 }}
-            className="mb-8 rounded-3xl p-4 md:p-5"
-            style={{ background: subjectColor(main, 0.1), boxShadow: `inset 0 0 0 1px ${subjectColor(main, 0.3)}` }}
-          >
-            <div className="flex items-center gap-2 font-sans text-sm font-semibold">
-              <Footprints size={16} /> New to this? These might help first:
-            </div>
-            <div className="mt-2 flex flex-col gap-1">
-              {prereqs.map((p) => (
-                <Link
-                  key={p.id}
-                  to={`/piece/${p.id}`}
-                  className="flex min-h-11 items-center gap-2 font-display text-lg underline decoration-2 underline-offset-4"
-                  style={{ textDecorationColor: subjectColor(p.subject[0]) }}
-                >
+          <aside className="mb-7 border-l-[3px] pl-4 font-sans text-sm leading-relaxed text-muted" style={{ borderColor: subjectColor(main, 0.6) }}>
+            <span className="inline-flex items-center gap-1.5 font-semibold text-ink/80">
+              <Footprints size={15} /> New to this?
+            </span>{" "}
+            It helps to read{" "}
+            {prereqs.map((p, i) => (
+              <span key={p.id}>
+                {i > 0 && (i === prereqs.length - 1 ? " and " : ", ")}
+                <Link to={`/piece/${p.id}`} className="font-semibold text-ink underline decoration-2 underline-offset-4" style={{ textDecorationColor: subjectColor(p.subject[0]) }}>
                   {p.title}
                 </Link>
-              ))}
-            </div>
-            <p className="mt-1 font-sans text-xs text-muted">Totally optional. This piece still works on its own.</p>
-          </motion.aside>
+              </span>
+            ))}{" "}
+            first, but it's optional.
+          </aside>
         )}
 
         <div ref={bodyRef}>
@@ -196,9 +182,11 @@ export default function Reader() {
         </div>
         <QuoteMaker piece={piece} container={bodyRef} />
 
-        <p className="mt-2 flex items-center gap-2 font-sans text-sm text-muted">
-          <Highlighter size={15} className="shrink-0" /> Liked a line? Highlight it to make a quote card.
-        </p>
+        {!quoteTipSeen && (
+          <p className="mt-2 flex items-center gap-2 font-sans text-sm text-muted">
+            <Highlighter size={15} className="shrink-0" /> Liked a line? Highlight it to make a quote card.
+          </p>
+        )}
 
         <div ref={endRef} className="my-12 text-center font-display text-2xl tracking-[0.5em] text-muted" aria-hidden>
           ⁂
@@ -224,15 +212,12 @@ export default function Reader() {
           </section>
         )}
 
-        <div className="mt-12 flex flex-col gap-3 sm:flex-row">
-          <Link to="/" className="flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-ink font-sans text-sm font-semibold text-card transition hover:opacity-90">
+        <div className="mt-12 flex flex-col items-center gap-1">
+          <Link to="/" className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-ink font-sans text-sm font-semibold text-card transition hover:opacity-90 sm:w-auto sm:px-8">
             <ArrowLeft size={18} /> Back to the feed
           </Link>
-          <Link
-            to={`/map?focus=${piece.id}`}
-            className="flex h-12 flex-1 items-center justify-center gap-2 rounded-full border-2 border-ink/80 font-sans text-sm font-semibold transition hover:bg-ink/5"
-          >
-            <MapIcon size={18} /> Find it on the map
+          <Link to={`/map?focus=${piece.id}`} className="flex h-11 items-center gap-1.5 px-3 font-sans text-sm font-semibold text-muted transition hover:text-ink">
+            <MapIcon size={16} /> See where it sits on the map
           </Link>
         </div>
       </article>

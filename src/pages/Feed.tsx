@@ -3,6 +3,7 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } fr
 import { useSearchParams } from "react-router-dom";
 import { FeedCard } from "../components/FeedCard";
 import { FilterChips } from "../components/FilterChips";
+import { markSeen } from "../lib/onboarding";
 import { SUBJECTS, type Subject } from "../content/types";
 import { allPieces } from "../lib/content";
 import { useIsDesktop } from "../lib/hooks";
@@ -67,6 +68,11 @@ export default function Feed() {
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [goTo, index, infoId]);
+
+  // Once someone has swiped past the first card, they don't need the hint again.
+  useEffect(() => {
+    if (index > 0) markSeen("swipe");
+  }, [index]);
 
   const setFilter = (s: Subject | null) => {
     lastSeenId = null;
