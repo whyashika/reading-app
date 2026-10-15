@@ -35,8 +35,8 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
 
 const TABS = [
   { to: "/", label: "Feed", icon: Layers3 },
-  { to: "/map", label: "Map", icon: MapIcon },
   { to: "/passport", label: "Passport", icon: Stamp },
+  { to: "/map", label: "Map", icon: MapIcon },
 ];
 
 function isActive(to: string, pathname: string) {
