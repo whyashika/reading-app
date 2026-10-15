@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowLeft, Flame, Footprints, Headphones, Highlighter, Layers, Map as MapIcon, Stamp } from "lucide-react";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { PlaceholderTag, SubjectBadge } from "../components/Badges";
+import { HookBadge, PlaceholderTag, SubjectBadge } from "../components/Badges";
 import { CheckIn } from "../components/CheckIn";
 import { ListenPlayer } from "../components/ListenPlayer";
 import { QuoteMaker } from "../components/QuoteMaker";
@@ -155,6 +155,12 @@ export default function Reader() {
           <p className="mt-5 border-b border-rule pb-4 font-sans text-sm font-medium text-muted">
             {piece.format} · {readingTime(piece)} min read · {DIFFICULTY_LABEL[piece.difficulty]}
           </p>
+          {piece.realWorldHook && (
+            <div className="mt-4 flex items-start gap-2.5 font-sans text-sm leading-relaxed text-ink/80">
+              <span className="mt-0.5 shrink-0"><HookBadge type={piece.realWorldHook.type} /></span>
+              <span>{piece.realWorldHook.text}</span>
+            </div>
+          )}
         </header>
 
         {piece.whyToday && <WhyToday why={piece.whyToday} />}

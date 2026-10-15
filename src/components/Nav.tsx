@@ -105,15 +105,32 @@ export function TabBar() {
           );
         })}
         <MoreButton />
+        <ThemeTab />
       </div>
     </nav>
+  );
+}
+
+/** Dark/light switch kept right on the phone tab bar, as Yashika asked. */
+function ThemeTab() {
+  const { dark, toggle } = useTheme();
+  return (
+    <button
+      onClick={toggle}
+      className="relative flex flex-1 flex-col items-center justify-center gap-0.5"
+      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+    >
+      <motion.span key={dark ? "sun" : "moon"} initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} className="relative mt-1 text-muted">
+        {dark ? <Sun size={22} /> : <Moon size={22} />}
+      </motion.span>
+      <span className="relative text-[0.7rem] font-semibold text-muted">{dark ? "Light" : "Dark"}</span>
+    </button>
   );
 }
 
 /** Phone tab bar's fourth slot: the quieter extras live here instead of on every screen. */
 function MoreButton() {
   const [open, setOpen] = useState(false);
-  const { dark, toggle } = useTheme();
   const navigate = useNavigate();
   const row = "flex min-h-14 w-full items-center gap-4 rounded-2xl px-3 text-left font-sans text-[1.02rem] font-semibold transition hover:bg-ink/5";
   return (
@@ -141,10 +158,6 @@ function MoreButton() {
             }}
           >
             <RouteIcon size={22} className="text-muted" /> Plan a reading route
-          </button>
-          <button className={row} onClick={toggle} aria-pressed={dark}>
-            {dark ? <Sun size={22} className="text-muted" /> : <Moon size={22} className="text-muted" />}
-            {dark ? "Light mode" : "Dark mode"}
           </button>
         </div>
       </BottomSheet>
